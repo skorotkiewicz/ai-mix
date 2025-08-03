@@ -87,7 +87,9 @@ function App() {
   const checkOllamaStatus = async () => {
     try {
       const ollamaUrl = OllamaAPI.getOllamaUrl();
-      const response = await fetch(`${ollamaUrl}/api/tags`);
+      const response = await OllamaAPI.makeProxiedRequest(
+        `${ollamaUrl}/api/tags`,
+      );
       if (response.ok) {
         setOllamaStatus("connected");
       } else {
