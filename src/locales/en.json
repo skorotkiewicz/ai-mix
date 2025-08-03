@@ -14,6 +14,7 @@
       }
     },
     "tabs": {
+      "welcome": "Welcome",
       "chat": "Chat",
       "textGenerator": "Text Generator",
       "translator": "Translator",
@@ -517,6 +518,40 @@
         "story": "Story"
       },
       "prompt": "Based on the following content, generate {{count}} creative and attractive titles for {{category}}:\n\nContent:\n{{content}}\n\nTitles should be:\n- Attention-grabbing\n- Accurately describing the content\n- Appropriate for the \"{{category}}\" category\n- In English\n\nReturn only a list of titles, each on a new line, numbered:"
+    },
+    "welcome": {
+      "title": "Welcome to Ollama AI Studio",
+      "subtitle": "Comprehensive platform for working with AI models",
+      "featuresTitle": "Main Features",
+      "features": {
+        "chat": {
+          "title": "Intelligent Chat",
+          "description": "Chat with AI models in real-time"
+        },
+        "generator": {
+          "title": "Content Generators",
+          "description": "Create texts, code, poetry and much more"
+        },
+        "local": {
+          "title": "Privacy and Local",
+          "description": "Everything runs locally on your computer"
+        }
+      },
+      "gettingStarted": {
+        "title": "Getting Started",
+        "step1": {
+          "title": "Install Ollama",
+          "description": "Download and install Ollama from https://ollama.ai"
+        },
+        "step2": {
+          "title": "Configure Connection",
+          "description": "Click on connection status to configure URL and model"
+        },
+        "step3": {
+          "title": "Explore Tools",
+          "description": "Try different tabs and discover AI possibilities"
+        }
+      }
     }
   }
 }

@@ -17,18 +17,20 @@ import { LanguageDetector } from "./components/LanguageDetector";
 import { ContentIdeas } from "./components/ContentIdeas";
 import { TextAnalyzer } from "./components/TextAnalyzer";
 import { OllamaSettings } from "./components/OllamaSettings";
+import { WelcomePage } from "./components/WelcomePage";
 import "./styles/global.css";
 import { OllamaAPI } from "./services/ollamaAPI";
 import useTranslate from "./utils/useTranslate";
 
 function App() {
-  const [activeTab, setActiveTab] = useState("chat");
+  const [activeTab, setActiveTab] = useState("welcome");
   const [ollamaStatus, setOllamaStatus] = useState("checking");
   const [showOllamaSettings, setShowOllamaSettings] = useState(false);
 
   const { t, changeLanguage, currentLanguage } = useTranslate();
 
   const tabs = [
+    { id: "welcome", label: t("tabs.welcome"), component: WelcomePage },
     { id: "chat", label: t("tabs.chat"), component: ChatComponent },
     {
       id: "text-generator",
@@ -97,7 +99,7 @@ function App() {
   };
 
   const ActiveComponent =
-    tabs.find((tab) => tab.id === activeTab)?.component || ChatComponent;
+    tabs.find((tab) => tab.id === activeTab)?.component || WelcomePage;
 
   return (
     <div style={{ minHeight: "100vh" }}>

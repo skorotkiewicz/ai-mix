@@ -14,6 +14,7 @@
       }
     },
     "tabs": {
+      "welcome": "Powitanie",
       "chat": "Chat",
       "textGenerator": "Generator Tekstu",
       "translator": "Tłumacz",
@@ -518,6 +519,40 @@
         "story": "Opowiadanie"
       },
       "prompt": "Na podstawie następującej treści wygeneruj {{count}} kreatywnych i atrakcyjnych tytułów dla {{category}}:\n\nTreść:\n{{content}}\n\nTytuły powinny być:\n- Przyciągające uwagę\n- Dokładnie opisujące treść\n- Odpowiednie dla kategorii \"{{category}}\"\n- W języku polskim\n\nZwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:"
+    },
+    "welcome": {
+      "title": "Witaj w Ollama AI Studio",
+      "subtitle": "Kompleksowa platforma do pracy z modelami AI",
+      "featuresTitle": "Główne funkcje",
+      "features": {
+        "chat": {
+          "title": "Inteligentny Chat",
+          "description": "Rozmawiaj z modelami AI w czasie rzeczywistym"
+        },
+        "generator": {
+          "title": "Generatory Treści",
+          "description": "Twórz teksty, kod, poezję i wiele więcej"
+        },
+        "local": {
+          "title": "Prywatność i Lokalność",
+          "description": "Wszystko działa lokalnie na Twoim komputerze"
+        }
+      },
+      "gettingStarted": {
+        "title": "Jak zacząć",
+        "step1": {
+          "title": "Zainstaluj Ollama",
+          "description": "Pobierz i zainstaluj Ollama ze strony https://ollama.ai"
+        },
+        "step2": {
+          "title": "Skonfiguruj połączenie",
+          "description": "Kliknij na status połączenia aby skonfigurować URL i model"
+        },
+        "step3": {
+          "title": "Eksploruj narzędzia",
+          "description": "Wypróbuj różne zakładki i odkrywaj możliwości AI"
+        }
+      }
     }
   }
 }

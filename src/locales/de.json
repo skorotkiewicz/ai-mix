@@ -14,6 +14,7 @@
       }
     },
     "tabs": {
+      "welcome": "Willkommen",
       "chat": "Chat",
       "textGenerator": "Text Generator",
       "translator": "Übersetzer",
@@ -517,6 +518,40 @@
         "story": "Geschichte"
       },
       "prompt": "Basierend auf dem folgenden Inhalt, generieren Sie {{count}} kreative und attraktive Titel für {{category}}:\n\nInhalt:\n{{content}}\n\nTitel sollten sein:\n- Aufmerksamkeitserregend\n- Den Inhalt genau beschreibend\n- Angemessen für die Kategorie \"{{category}}\"\n- Auf Deutsch\n\nGeben Sie nur eine Liste von Titeln zurück, jeden in einer neuen Zeile, nummeriert:"
+    },
+    "welcome": {
+      "title": "Willkommen bei Ollama AI Studio",
+      "subtitle": "Umfassende Plattform für die Arbeit mit KI-Modellen",
+      "featuresTitle": "Hauptfunktionen",
+      "features": {
+        "chat": {
+          "title": "Intelligenter Chat",
+          "description": "Chatten Sie mit KI-Modellen in Echtzeit"
+        },
+        "generator": {
+          "title": "Content-Generatoren",
+          "description": "Erstellen Sie Texte, Code, Poesie und vieles mehr"
+        },
+        "local": {
+          "title": "Datenschutz und Lokal",
+          "description": "Alles läuft lokal auf Ihrem Computer"
+        }
+      },
+      "gettingStarted": {
+        "title": "Erste Schritte",
+        "step1": {
+          "title": "Ollama Installieren",
+          "description": "Laden Sie Ollama von https://ollama.ai herunter und installieren Sie es"
+        },
+        "step2": {
+          "title": "Verbindung Konfigurieren",
+          "description": "Klicken Sie auf den Verbindungsstatus, um URL und Modell zu konfigurieren"
+        },
+        "step3": {
+          "title": "Tools Erkunden",
+          "description": "Probieren Sie verschiedene Tabs aus und entdecken Sie KI-Möglichkeiten"
+        }
+      }
     }
   }
 }
