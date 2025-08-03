@@ -123,7 +123,14 @@ export function ChatComponent() {
           className="btn"
           style={{ alignSelf: "flex-end" }}
         >
-          <Send size={16} />
+          {isLoading ? (
+            <span
+              className="loading-spinner"
+              style={{ height: 16, width: 16 }}
+            />
+          ) : (
+            <Send size={16} />
+          )}
           Wyślij
         </button>
       </div>
