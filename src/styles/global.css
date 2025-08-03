@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 * {
   margin: 0;
@@ -36,8 +36,12 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  background: linear-gradient(135deg, var(--background-primary) 0%, var(--primary-color) 100%);
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(
+    135deg,
+    var(--background-primary) 0%,
+    var(--primary-color) 100%
+  );
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
@@ -76,13 +80,13 @@ body {
 }
 
 .nav-tabs {
-  display: flex;
-  gap: calc(var(--spacing-unit) * 1);
+  /* display: flex; */
+  /* gap: calc(var(--spacing-unit) * 1); */
   background: var(--background-secondary);
-  padding: calc(var(--spacing-unit) * 0.5);
+  /* padding: calc(var(--spacing-unit) * 0.5); */
   border-radius: var(--radius-lg);
   margin: calc(var(--spacing-unit) * 3) 0;
-  overflow-x: auto;
+  /* overflow-x: auto; */
 }
 
 .nav-tab {
@@ -134,13 +138,17 @@ body {
 }
 
 .card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+  background: linear-gradient(
+    90deg,
+    var(--accent-color),
+    var(--highlight-color)
+  );
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -373,7 +381,11 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+  background: linear-gradient(
+    90deg,
+    var(--accent-color),
+    var(--highlight-color)
+  );
   transition: width 0.3s ease;
 }
 
@@ -410,7 +422,7 @@ body {
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   padding: calc(var(--spacing-unit) * 2);
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
   font-size: 0.875rem;
   overflow-x: auto;
   position: relative;
@@ -438,24 +450,24 @@ body {
   .container {
     padding: 0 calc(var(--spacing-unit) * 2);
   }
-  
+
   .feature-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .nav-tabs {
     gap: calc(var(--spacing-unit) * 0.5);
   }
-  
+
   .nav-tab {
     padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2);
     font-size: 0.8rem;
   }
-  
+
   .chat-message.user {
     margin-left: calc(var(--spacing-unit) * 2);
   }
-  
+
   .chat-message.assistant {
     margin-right: calc(var(--spacing-unit) * 2);
   }
@@ -466,15 +478,15 @@ body {
     flex-direction: column;
     gap: calc(var(--spacing-unit) * 2);
   }
-  
+
   .logo {
     font-size: 1.25rem;
   }
-  
+
   .card {
     padding: calc(var(--spacing-unit) * 2);
   }
-  
+
   .nav-tabs {
     margin: calc(var(--spacing-unit) * 2) 0;
   }
@@ -500,11 +512,12 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
-    opacity: .5;
+    opacity: 0.5;
   }
 }
 
@@ -635,7 +648,11 @@ body {
 
 .modal-header {
   position: relative;
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-color-dark)
+  );
 }
 
 .modal-header .card-title {
