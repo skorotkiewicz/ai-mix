@@ -23,6 +23,7 @@ import { OllamaAPI } from "./services/ollamaAPI";
 function App() {
   const [activeTab, setActiveTab] = useState("chat");
   const [ollamaStatus, setOllamaStatus] = useState("checking");
+  const [showOllamaSettings, setShowOllamaSettings] = useState(false);
 
   const tabs = [
     { id: "chat", label: "Chat", component: ChatComponent },
@@ -57,15 +58,17 @@ function App() {
       label: "Analizator Tekstu",
       component: TextAnalyzer,
     },
-    {
-      id: "settings",
-      label: "Ustawienia",
-      component: OllamaSettings,
-    },
   ];
 
   useEffect(() => {
     checkOllamaStatus();
+
+    // Check if ollamaUrl or selectedModel are missing and show popup
+    const ollamaUrl = localStorage.getItem("ollamaUrl");
+    const selectedModel = localStorage.getItem("selectedModel");
+    if (!ollamaUrl || !selectedModel) {
+      setShowOllamaSettings(true);
+    }
   }, []);
 
   const checkOllamaStatus = async () => {
@@ -102,28 +105,14 @@ function App() {
               }}
             >
               <div
-                style={{
-                  fontSize: "0.875rem",
-                  color:
-                    ollamaStatus === "connected"
-                      ? "var(--success-color)"
-                      : "var(--error-color)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "calc(var(--spacing-unit) * 1)",
-                }}
+                className={`header-status ${
+                  ollamaStatus === "connected"
+                    ? "status-connected"
+                    : "status-error"
+                }`}
+                onClick={() => setShowOllamaSettings(true)}
               >
-                <div
-                  style={{
-                    width: "8px",
-                    height: "8px",
-                    borderRadius: "50%",
-                    background:
-                      ollamaStatus === "connected"
-                        ? "var(--success-color)"
-                        : "var(--error-color)",
-                  }}
-                ></div>
+                <div className="status-indicator"></div>
                 {ollamaStatus === "connected"
                   ? "Ollama Połączona"
                   : ollamaStatus === "checking"
@@ -180,6 +169,22 @@ function App() {
           </div>
         </div>
       </main>
+
+      {/* Popup Modal for Ollama Settings */}
+      {showOllamaSettings && (
+        <div
+          className="modal-overlay"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setShowOllamaSettings(false);
+            }
+          }}
+        >
+          <div className="modal-container">
+            <OllamaSettings onClose={() => setShowOllamaSettings(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

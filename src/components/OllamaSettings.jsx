@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react";
-import { Settings, RefreshCw, CheckCircle, XCircle } from "lucide-react";
+import {
+  Settings,
+  RefreshCw,
+  CheckCircle,
+  XCircle,
+  X,
+  Save,
+} from "lucide-react";
 import { useOllama } from "../contexts/OllamaContext";
 
-export function OllamaSettings() {
+export function OllamaSettings({ onClose }) {
   const {
     ollamaUrl,
     selectedModel,
@@ -55,35 +62,31 @@ export function OllamaSettings() {
   };
 
   return (
-    <div className="card">
-      <div className="card-header">
+    <div className="card modal-card">
+      <div className="card-header ">
+        {/* <div className="card-header modal-header"> */}
         <div className="card-icon">
           <Settings size={24} />
         </div>
         <h3 className="card-title">Ustawienia Ollama</h3>
+        {onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            className="modal-close-button"
+          >
+            <X size={18} />
+          </button>
+        )}
       </div>
 
-      <div className="card-content">
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "calc(var(--spacing-unit) * 3)",
-          }}
-        >
+      <div className="card-content modal-content">
+        <div className="content-layout">
           {/* Status połączenia */}
           <div
-            style={{
-              padding: "calc(var(--spacing-unit) * 2)",
-              borderRadius: "var(--border-radius)",
-              backgroundColor: isConnected
-                ? "rgba(34, 197, 94, 0.1)"
-                : "rgba(239, 68, 68, 0.1)",
-              border: `1px solid ${isConnected ? "rgba(34, 197, 94, 0.3)" : "rgba(239, 68, 68, 0.3)"}`,
-              display: "flex",
-              alignItems: "center",
-              gap: "calc(var(--spacing-unit) * 2)",
-            }}
+            className={`connection-status ${
+              isConnected ? "connected" : "disconnected"
+            }`}
           >
             {isConnected ? (
               <CheckCircle
@@ -95,8 +98,8 @@ export function OllamaSettings() {
             )}
             <div>
               <div
+                className="connection-status-title"
                 style={{
-                  fontWeight: "600",
                   color: isConnected
                     ? "var(--success-color)"
                     : "var(--error-color)",
@@ -106,7 +109,7 @@ export function OllamaSettings() {
                   ? "Połączono z Ollama"
                   : "Brak połączenia z Ollama"}
               </div>
-              <div style={{ fontSize: "0.875rem", opacity: 0.7 }}>
+              <div className="connection-status-subtitle">
                 {isConnected
                   ? `Znaleziono ${availableModels.length} modeli`
                   : "Sprawdź URL i upewnij się, że Ollama jest uruchomiona"}
@@ -115,43 +118,26 @@ export function OllamaSettings() {
           </div>
 
           {/* Konfiguracja URL */}
-          <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "calc(var(--spacing-unit) * 1)",
-                fontWeight: "600",
-              }}
-            >
-              URL Ollama
-            </label>
-            <form
-              onSubmit={handleUrlSubmit}
-              style={{ display: "flex", gap: "calc(var(--spacing-unit) * 2)" }}
-            >
+          <div className="form-section">
+            <label className="form-label-enhanced">URL Ollama</label>
+            <form onSubmit={handleUrlSubmit} className="form-row">
               <input
                 type="text"
                 value={urlInput}
                 onChange={handleUrlChange}
                 placeholder="http://localhost:11434"
-                className="input-field"
-                style={{ flex: 1 }}
+                className="form-input-enhanced"
               />
               <button
                 type="submit"
-                className="button-primary"
+                className="button-primary button-enhanced button-primary-enhanced"
                 disabled={isChecking}
               >
+                <Save size={20} />
                 {isChecking ? "Sprawdzanie..." : "Zapisz"}
               </button>
             </form>
-            <div
-              style={{
-                fontSize: "0.875rem",
-                opacity: 0.7,
-                marginTop: "calc(var(--spacing-unit) * 1)",
-              }}
-            >
+            <div className="form-hint">
               Przykład: http://localhost:11434 lub http://192.168.1.100:11434
             </div>
           </div>
@@ -161,32 +147,23 @@ export function OllamaSettings() {
             type="button"
             onClick={testConnection}
             disabled={isChecking}
-            className="button-secondary"
-            style={{ alignSelf: "flex-start" }}
+            className="button-secondary button-enhanced button-secondary-enhanced"
           >
             <RefreshCw
               size={16}
-              style={{ marginRight: "calc(var(--spacing-unit) * 1)" }}
+              className={isChecking ? "spinning-icon" : ""}
             />
             {isChecking ? "Sprawdzanie..." : "Sprawdź połączenie"}
           </button>
 
           {/* Wybór modelu */}
           {availableModels.length > 0 && (
-            <div>
-              <label
-                style={{
-                  display: "block",
-                  marginBottom: "calc(var(--spacing-unit) * 1)",
-                  fontWeight: "600",
-                }}
-              >
-                Model
-              </label>
+            <div className="form-section">
+              <label className="form-label-enhanced">Model</label>
               <select
                 value={selectedModel}
                 onChange={handleModelChange}
-                className="input-field"
+                className="select-enhanced"
               >
                 {availableModels.map((model) => (
                   <option key={model.name} value={model.name}>
@@ -195,84 +172,9 @@ export function OllamaSettings() {
                   </option>
                 ))}
               </select>
-              <div
-                style={{
-                  fontSize: "0.875rem",
-                  opacity: 0.7,
-                  marginTop: "calc(var(--spacing-unit) * 1)",
-                }}
-              >
-                Wybrany model: {selectedModel}
-              </div>
+              <div className="form-hint">Wybrany model: {selectedModel}</div>
             </div>
           )}
-
-          {/* Lista dostępnych modeli */}
-          {/* {availableModels.length > 0 && (
-            <div>
-              <h3 style={{ marginBottom: "calc(var(--spacing-unit) * 2)" }}>
-                Dostępne modele ({availableModels.length})
-              </h3>
-              <div
-                style={{
-                  display: "grid",
-                  gap: "calc(var(--spacing-unit) * 2)",
-                  maxHeight: "300px",
-                  overflowY: "auto",
-                  padding: "calc(var(--spacing-unit) * 2)",
-                  backgroundColor: "var(--surface-color)",
-                  borderRadius: "var(--border-radius)",
-                  border: "1px solid var(--border-color)",
-                }}
-              >
-                {availableModels.map((model) => (
-                  <div
-                    key={model.name}
-                    style={{
-                      padding: "calc(var(--spacing-unit) * 2)",
-                      backgroundColor:
-                        selectedModel === model.name
-                          ? "var(--primary-color-light)"
-                          : "transparent",
-                      borderRadius: "var(--border-radius)",
-                      border:
-                        selectedModel === model.name
-                          ? "1px solid var(--primary-color)"
-                          : "1px solid var(--border-color)",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setSelectedModel(model.name)}
-                  >
-                    <div
-                      style={{
-                        fontWeight: "600",
-                        marginBottom: "calc(var(--spacing-unit) * 1)",
-                      }}
-                    >
-                      {model.name}
-                    </div>
-                    <div style={{ fontSize: "0.875rem", opacity: 0.7 }}>
-                      Rozmiar: {(model.size / 1024 / 1024 / 1024).toFixed(1)} GB
-                    </div>
-                    {model.modified_at && (
-                      <div
-                        style={{
-                          fontSize: "0.75rem",
-                          opacity: 0.6,
-                          marginTop: "calc(var(--spacing-unit) * 0.5)",
-                        }}
-                      >
-                        Zaktualizowano:{" "}
-                        {new Date(model.modified_at).toLocaleDateString(
-                          "pl-PL",
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )} */}
         </div>
       </div>
     </div>
