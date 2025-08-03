@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { OllamaAPI } from "../services/ollamaAPI";
 
 const OllamaContext = createContext();
 
@@ -22,7 +23,7 @@ export function OllamaProvider({ children }) {
 
   const checkConnection = async () => {
     try {
-      const response = await fetch(`${ollamaUrl}/api/tags`);
+      const response = await OllamaAPI.makeProxiedRequest(`${ollamaUrl}/api/tags`);
       if (response.ok) {
         const data = await response.json();
         setAvailableModels(data.models || []);

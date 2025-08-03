@@ -7,12 +7,47 @@ export class OllamaAPI {
     return localStorage.getItem("selectedModel") || "llama3.2";
   }
 
+  static isLocalUrl(url) {
+    try {
+      const urlObj = new URL(url);
+      const hostname = urlObj.hostname.toLowerCase();
+      return hostname === 'localhost' || 
+             hostname === '127.0.0.1' || 
+             hostname.startsWith('192.168.') ||
+             hostname.startsWith('10.') ||
+             hostname.startsWith('172.');
+    } catch {
+      return false;
+    }
+  }
+
+  static async makeProxiedRequest(url, options = {}) {
+    const ollamaUrl = OllamaAPI.getOllamaUrl();
+    
+    // If it's a local URL and we're likely on a public domain, use service worker proxy
+    if (OllamaAPI.isLocalUrl(ollamaUrl) && window.location.protocol === 'https:') {
+      const proxyHeaders = {
+        ...options.headers,
+        'X-Ollama-Proxy': 'true',
+        'X-Ollama-Target-URL': url
+      };
+
+      return fetch(window.location.origin, {
+        ...options,
+        headers: proxyHeaders
+      });
+    }
+    
+    // Direct request for non-local URLs or HTTP contexts
+    return fetch(url, options);
+  }
+
   static async generateText(prompt, model = null, options = {}) {
     const ollamaUrl = OllamaAPI.getOllamaUrl();
     const selectedModel = model || OllamaAPI.getSelectedModel();
 
     try {
-      const response = await fetch(`${ollamaUrl}/api/generate`, {
+      const response = await OllamaAPI.makeProxiedRequest(`${ollamaUrl}/api/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -48,7 +83,7 @@ export class OllamaAPI {
     const selectedModel = model || OllamaAPI.getSelectedModel();
 
     try {
-      const response = await fetch(`${ollamaUrl}/api/chat`, {
+      const response = await OllamaAPI.makeProxiedRequest(`${ollamaUrl}/api/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -101,7 +136,7 @@ export class OllamaAPI {
     const ollamaUrl = customUrl || OllamaAPI.getOllamaUrl();
 
     try {
-      const response = await fetch(`${ollamaUrl}/api/tags`);
+      const response = await OllamaAPI.makeProxiedRequest(`${ollamaUrl}/api/tags`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
