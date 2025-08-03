@@ -4,6 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 import enTranslation from "../locales/en.json";
 import plTranslation from "../locales/pl.json";
+import deTranslation from "../locales/de.json";
 
 i18n
   // detect user language
@@ -15,6 +16,7 @@ i18n
     resources: {
       en: enTranslation,
       pl: plTranslation,
+      de: deTranslation,
     },
     fallbackLng: "en",
     debug: false,
@@ -34,7 +36,7 @@ i18n
 // Helper function to detect if browser language is supported and set it
 const setBrowserLanguage = () => {
   const browserLang = navigator.language.split("-")[0]; // Get language code (e.g., 'en' from 'en-US')
-  const supportedLanguages = ["en", "pl"];
+  const supportedLanguages = ["en", "pl", "de"];
 
   if (
     supportedLanguages.includes(browserLang) &&

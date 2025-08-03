@@ -41,14 +41,22 @@ function App() {
       label: t("tabs.sentiment"),
       component: SentimentAnalyzer,
     },
-    { id: "code-generator", label: t("tabs.codeGenerator"), component: CodeGenerator },
+    {
+      id: "code-generator",
+      label: t("tabs.codeGenerator"),
+      component: CodeGenerator,
+    },
     { id: "email", label: t("tabs.email"), component: EmailAssistant },
     { id: "poetry", label: t("tabs.poetry"), component: PoetryGenerator },
     { id: "titles", label: t("tabs.titles"), component: TitleGenerator },
     { id: "qa", label: t("tabs.qa"), component: QASystem },
     { id: "stories", label: t("tabs.stories"), component: StoryGenerator },
     { id: "recipes", label: t("tabs.recipes"), component: RecipeGenerator },
-    { id: "summarizer", label: t("tabs.summarizer"), component: TextSummarizer },
+    {
+      id: "summarizer",
+      label: t("tabs.summarizer"),
+      component: TextSummarizer,
+    },
     { id: "refactor", label: t("tabs.refactor"), component: CodeRefactor },
     { id: "language", label: t("tabs.language"), component: LanguageDetector },
     {
@@ -121,6 +129,13 @@ function App() {
                   className={`lang-btn ${currentLanguage === "pl" ? "active" : ""}`}
                 >
                   PL
+                </button>
+                <button
+                  type="button"
+                  onClick={() => changeLanguage("de")}
+                  className={`lang-btn ${currentLanguage === "de" ? "active" : ""}`}
+                >
+                  DE
                 </button>
               </div>
               <small>{OllamaAPI.getSelectedModel()}</small>
