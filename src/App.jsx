@@ -30,7 +30,7 @@ function App() {
   const { t, changeLanguage, currentLanguage } = useTranslate();
 
   const tabs = [
-    { id: "welcome", label: t("tabs.welcome"), component: WelcomePage },
+    // { id: "welcome", label: t("tabs.welcome"), component: WelcomePage },
     { id: "chat", label: t("tabs.chat"), component: ChatComponent },
     {
       id: "text-generator",
