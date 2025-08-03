@@ -40,7 +40,7 @@ Tytuły powinny być:
 Zwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:`;
 
     try {
-      const response = await OllamaAPI.generateText(prompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(prompt, null, {
         temperature: 0.8,
       });
 

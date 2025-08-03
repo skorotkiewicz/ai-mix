@@ -49,7 +49,7 @@ Pomysły powinny być:
 Odpowiedz w języku polskim:`;
 
     try {
-      const response = await OllamaAPI.generateText(prompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(prompt, null, {
         temperature: 0.8,
       });
 

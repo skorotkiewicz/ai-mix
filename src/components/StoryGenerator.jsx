@@ -48,7 +48,7 @@ export function StoryGenerator() {
     prompt += ` Opowiadanie powinno być kompletne z wprowadzeniem, rozwinięciem i zakończeniem. Pisz w języku polskim.`;
 
     try {
-      const response = await OllamaAPI.generateText(prompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(prompt, null, {
         temperature: 0.8,
       });
       setResult(response);

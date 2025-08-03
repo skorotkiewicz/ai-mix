@@ -68,7 +68,7 @@ Email powinien zawierać:
 Zwróć kompletny email gotowy do wysłania:`;
 
     try {
-      const response = await OllamaAPI.generateText(prompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(prompt, null, {
         temperature: 0.7,
       });
       setResult(response);
@@ -79,7 +79,7 @@ Zwróć kompletny email gotowy do wysłania:`;
     }
   };
 
-  const useTemplate = (templateId) => {
+  const mainTemplate = (templateId) => {
     const templates_content = {
       meeting:
         "Chciałbym zaprosić Cię na spotkanie w sprawie omówienia projektu. Czy masz czas w przyszłym tygodniu?",
@@ -117,7 +117,7 @@ Zwróć kompletny email gotowy do wysłania:`;
             <button
               type="button"
               key={template.id}
-              onClick={() => useTemplate(template.id)}
+              onClick={() => mainTemplate(template.id)}
               className="btn btn-secondary"
               style={{
                 fontSize: "0.8rem",

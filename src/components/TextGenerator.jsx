@@ -47,7 +47,7 @@ export function TextGenerator() {
     const fullPrompt = `${lengthInstructions[length]} ${styleInstructions[style]} na temat: ${prompt}`;
 
     try {
-      const response = await OllamaAPI.generateText(fullPrompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(fullPrompt, null, {
         temperature: style === "creative" ? 0.9 : 0.7,
       });
       setResult(response);

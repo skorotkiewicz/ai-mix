@@ -31,7 +31,7 @@ export function ChatComponent() {
 
       await OllamaAPI.streamChat(
         [...messages, userMessage],
-        "llama3.2",
+        null,
         (chunk) => {
           setMessages((prev) => {
             const newMessages = [...prev];

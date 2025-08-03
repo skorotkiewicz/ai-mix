@@ -56,7 +56,7 @@ Przepis powinien zawierać:
 Napisz w języku polskim, w przystępny sposób:`;
 
     try {
-      const response = await OllamaAPI.generateText(prompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(prompt, null, {
         temperature: 0.7,
       });
       setResult(response);

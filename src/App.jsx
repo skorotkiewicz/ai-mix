@@ -16,7 +16,9 @@ import { CodeRefactor } from "./components/CodeRefactor";
 import { LanguageDetector } from "./components/LanguageDetector";
 import { ContentIdeas } from "./components/ContentIdeas";
 import { TextAnalyzer } from "./components/TextAnalyzer";
+import { OllamaSettings } from "./components/OllamaSettings";
 import "./styles/global.css";
+import { OllamaAPI } from "./services/ollamaAPI";
 
 function App() {
   const [activeTab, setActiveTab] = useState("chat");
@@ -55,6 +57,11 @@ function App() {
       label: "Analizator Tekstu",
       component: TextAnalyzer,
     },
+    {
+      id: "settings",
+      label: "Ustawienia",
+      component: OllamaSettings,
+    },
   ];
 
   useEffect(() => {
@@ -63,7 +70,8 @@ function App() {
 
   const checkOllamaStatus = async () => {
     try {
-      const response = await fetch("http://localhost:11434/api/tags");
+      const ollamaUrl = OllamaAPI.getOllamaUrl();
+      const response = await fetch(`${ollamaUrl}/api/tags`);
       if (response.ok) {
         setOllamaStatus("connected");
       } else {

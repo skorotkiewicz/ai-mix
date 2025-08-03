@@ -56,7 +56,7 @@ ${code}
 Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
 
     try {
-      const response = await OllamaAPI.generateText(prompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(prompt, null, {
         temperature: 0.2,
       });
       setResult(response);

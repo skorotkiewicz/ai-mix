@@ -29,7 +29,7 @@ Tekst do analizy:
 Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
 
     try {
-      const response = await OllamaAPI.generateText(prompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(prompt, null, {
         temperature: 0.1,
       });
 

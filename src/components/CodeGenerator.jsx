@@ -49,7 +49,7 @@ ${description}
 Zwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrze sformatowany.`;
 
     try {
-      const response = await OllamaAPI.generateText(prompt, "llama3.2", {
+      const response = await OllamaAPI.generateText(prompt, null, {
         temperature: 0.2,
       });
       setResult(response);

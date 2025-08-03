@@ -1,15 +1,24 @@
-const OLLAMA_BASE_URL = "http://localhost:11434";
-
 export class OllamaAPI {
-  static async generateText(prompt, model = "llama3.2", options = {}) {
+  static getOllamaUrl() {
+    return localStorage.getItem("ollamaUrl") || "http://localhost:11434";
+  }
+
+  static getSelectedModel() {
+    return localStorage.getItem("selectedModel") || "llama3.2";
+  }
+
+  static async generateText(prompt, model = null, options = {}) {
+    const ollamaUrl = OllamaAPI.getOllamaUrl();
+    const selectedModel = model || OllamaAPI.getSelectedModel();
+
     try {
-      const response = await fetch(`${OLLAMA_BASE_URL}/api/generate`, {
+      const response = await fetch(`${ollamaUrl}/api/generate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model,
+          model: selectedModel,
           prompt,
           stream: false,
           options: {
@@ -29,20 +38,23 @@ export class OllamaAPI {
     } catch (error) {
       console.error("Ollama API Error:", error);
       throw new Error(
-        "Failed to connect to Ollama. Make sure Ollama is running on localhost:11434",
+        `Failed to connect to Ollama. Make sure Ollama is running on ${ollamaUrl}`,
       );
     }
   }
 
-  static async streamChat(messages, model = "llama3.2", onChunk) {
+  static async streamChat(messages, model = null, onChunk) {
+    const ollamaUrl = OllamaAPI.getOllamaUrl();
+    const selectedModel = model || OllamaAPI.getSelectedModel();
+
     try {
-      const response = await fetch(`${OLLAMA_BASE_URL}/api/chat`, {
+      const response = await fetch(`${ollamaUrl}/api/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model,
+          model: selectedModel,
           messages,
           stream: true,
         }),
@@ -72,7 +84,7 @@ export class OllamaAPI {
             if (parsed.message?.content) {
               onChunk(parsed.message.content);
             }
-          } catch (e) {
+          } catch (_e) {
             // Skip invalid JSON lines
           }
         }
@@ -80,14 +92,16 @@ export class OllamaAPI {
     } catch (error) {
       console.error("Ollama Stream Error:", error);
       throw new Error(
-        "Failed to connect to Ollama. Make sure Ollama is running on localhost:11434",
+        `Failed to connect to Ollama. Make sure Ollama is running on ${ollamaUrl}`,
       );
     }
   }
 
-  static async getAvailableModels() {
+  static async getAvailableModels(customUrl = null) {
+    const ollamaUrl = customUrl || OllamaAPI.getOllamaUrl();
+
     try {
-      const response = await fetch(`${OLLAMA_BASE_URL}/api/tags`);
+      const response = await fetch(`${ollamaUrl}/api/tags`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
