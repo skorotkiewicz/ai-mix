@@ -123,11 +123,7 @@ export function TextGenerator() {
         disabled={isLoading || !prompt.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner"></div>
-        ) : (
-          <Wand2 size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <Wand2 size={16} />}
         Generuj Tekst
       </button>
 

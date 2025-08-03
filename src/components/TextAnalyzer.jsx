@@ -105,7 +105,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <FileSearch size={16} />
         )}

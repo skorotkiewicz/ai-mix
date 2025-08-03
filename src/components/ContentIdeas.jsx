@@ -151,7 +151,7 @@ Odpowiedz w języku polskim:`;
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <TrendingUp size={16} />
         )}

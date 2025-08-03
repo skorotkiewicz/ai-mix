@@ -123,7 +123,7 @@ Zwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:`;
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <RefreshCw size={16} />
         )}

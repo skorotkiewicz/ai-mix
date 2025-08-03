@@ -104,6 +104,7 @@ function App() {
                 gap: "calc(var(--spacing-unit) * 2)",
               }}
             >
+              <small>{OllamaAPI.getSelectedModel()}</small>
               <div
                 className={`header-status ${
                   ollamaStatus === "connected"
@@ -112,7 +113,7 @@ function App() {
                 }`}
                 onClick={() => setShowOllamaSettings(true)}
               >
-                <div className="status-indicator"></div>
+                <div className="status-indicator" />
                 {ollamaStatus === "connected"
                   ? "Ollama Połączona"
                   : ollamaStatus === "checking"

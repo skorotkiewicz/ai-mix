@@ -145,7 +145,7 @@ Napisz w języku polskim, w przystępny sposób:`;
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <ChefHat size={16} />
         )}

@@ -137,7 +137,7 @@ Wiersz powinien być oryginalny, poetycki i emocjonalny. Zwróć tylko sam wiers
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <Sparkles size={16} />
         )}

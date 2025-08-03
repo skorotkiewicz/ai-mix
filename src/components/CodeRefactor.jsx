@@ -180,7 +180,7 @@ Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <RefreshCw size={16} />
         )}

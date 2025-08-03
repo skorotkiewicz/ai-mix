@@ -102,11 +102,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
         disabled={isLoading || !text.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner"></div>
-        ) : (
-          <Heart size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <Heart size={16} />}
         Analizuj Sentiment
       </button>
 
@@ -139,7 +135,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
             <div
               className="progress-fill"
               style={{ width: `${confidence * 100}%` }}
-            ></div>
+            />
           </div>
 
           {explanation && (

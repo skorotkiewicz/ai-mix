@@ -119,7 +119,7 @@ ODPOWIEDŹ:`;
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <HelpCircle size={16} />
         )}

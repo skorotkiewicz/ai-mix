@@ -29,17 +29,13 @@ export function ChatComponent() {
       const assistantMessage = { role: "assistant", content: "" };
       setMessages((prev) => [...prev, assistantMessage]);
 
-      await OllamaAPI.streamChat(
-        [...messages, userMessage],
-        null,
-        (chunk) => {
-          setMessages((prev) => {
-            const newMessages = [...prev];
-            newMessages[newMessages.length - 1].content += chunk;
-            return newMessages;
-          });
-        },
-      );
+      await OllamaAPI.streamChat([...messages, userMessage], null, (chunk) => {
+        setMessages((prev) => {
+          const newMessages = [...prev];
+          newMessages[newMessages.length - 1].content += chunk;
+          return newMessages;
+        });
+      });
     } catch (err) {
       setError(err.message);
       setMessages((prev) => prev.slice(0, -1)); // Remove empty assistant message
@@ -106,19 +102,8 @@ export function ChatComponent() {
             </div>
           ))
         )}
-        {isLoading && (
-          <div className="chat-message assistant">
-            <div
-              style={{
-                fontWeight: "500",
-                marginBottom: "calc(var(--spacing-unit) * 1)",
-              }}
-            >
-              AI
-            </div>
-            <div className="loading-spinner"></div>
-          </div>
-        )}
+
+        {/* {isLoading && <div className="loading-spinner" />} */}
       </div>
 
       <div style={{ display: "flex", gap: "calc(var(--spacing-unit) * 2)" }}>

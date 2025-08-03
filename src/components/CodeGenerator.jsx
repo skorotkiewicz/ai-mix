@@ -135,11 +135,7 @@ Zwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrz
         disabled={isLoading || !description.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner"></div>
-        ) : (
-          <Code size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <Code size={16} />}
         Generuj Kod
       </button>
 

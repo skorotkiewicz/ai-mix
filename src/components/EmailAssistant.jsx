@@ -193,11 +193,7 @@ Zwróć kompletny email gotowy do wysłania:`;
         disabled={isLoading || !purpose.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner"></div>
-        ) : (
-          <Send size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <Send size={16} />}
         Generuj Email
       </button>
 

@@ -121,11 +121,7 @@ Odpowiedz tylko w formacie JSON:`;
         disabled={isLoading || !text.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner"></div>
-        ) : (
-          <Search size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <Search size={16} />}
         Wykryj Język
       </button>
 
@@ -176,7 +172,7 @@ Odpowiedz tylko w formacie JSON:`;
             <div
               className="progress-fill"
               style={{ width: `${(result.confidence || 0) * 100}%` }}
-            ></div>
+            />
           </div>
 
           {result.characteristics && (

@@ -88,7 +88,7 @@ ${inputText}`;
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <ArrowRight size={16} />
         )}

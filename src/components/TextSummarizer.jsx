@@ -170,7 +170,7 @@ Streszczenie powinno zawierać najważniejsze informacje i być napisane w języ
         className="btn"
       >
         {isLoading ? (
-          <div className="loading-spinner"></div>
+          <div className="loading-spinner" />
         ) : (
           <Minimize2 size={16} />
         )}
