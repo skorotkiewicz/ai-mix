@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { BarChart3, FileSearch } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function TextAnalyzer() {
   const [text, setText] = useState("");
   const [analysis, setAnalysis] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const analyzeText = async () => {
     if (!text.trim()) return;
@@ -14,22 +16,7 @@ export function TextAnalyzer() {
     setIsLoading(true);
     setError("");
 
-    const prompt = `Przeanalizuj następujący tekst i odpowiedz w formacie JSON:
-{
-  "word_count": 150,
-  "readability": "łatwy/średni/trudny",
-  "tone": "formalny/nieformalny/neutralny",
-  "key_topics": ["temat1", "temat2", "temat3"],
-  "complexity_level": "podstawowy/średniozaawansowany/zaawansowany",
-  "target_audience": "opisz dla kogo może być ten tekst",
-  "strengths": ["mocna strona 1", "mocna strona 2"],
-  "suggestions": ["sugestia poprawy 1", "sugestia poprawy 2"]
-}
-
-Tekst do analizy:
-"${text}"
-
-Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
+    const prompt = t("textAnalyzer.prompt", { text });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -41,22 +28,26 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
         const result = JSON.parse(jsonMatch[0]);
         setAnalysis(result);
       } else {
-        throw new Error("Nie udało się przeanalizować tekstu");
+        throw new Error(t("textAnalyzer.errors.parsing"));
       }
     } catch (_err) {
-      setError("Błąd podczas analizy tekstu. Spróbuj ponownie.");
+      setError(t("textAnalyzer.errors.analysis"));
     } finally {
       setIsLoading(false);
     }
   };
 
   const getReadabilityColor = (readability) => {
+    const easyText = t("textAnalyzer.readabilityLevels.easy");
+    const mediumText = t("textAnalyzer.readabilityLevels.medium");
+    const hardText = t("textAnalyzer.readabilityLevels.hard");
+
     switch (readability?.toLowerCase()) {
-      case "łatwy":
+      case easyText.toLowerCase():
         return "var(--success-color)";
-      case "średni":
+      case mediumText.toLowerCase():
         return "var(--warning-color)";
-      case "trudny":
+      case hardText.toLowerCase():
         return "var(--error-color)";
       default:
         return "var(--text-secondary)";
@@ -64,12 +55,16 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
   };
 
   const getComplexityColor = (complexity) => {
+    const basicText = t("textAnalyzer.complexityLevels.basic");
+    const intermediateText = t("textAnalyzer.complexityLevels.intermediate");
+    const advancedText = t("textAnalyzer.complexityLevels.advanced");
+
     switch (complexity?.toLowerCase()) {
-      case "podstawowy":
+      case basicText.toLowerCase():
         return "var(--success-color)";
-      case "średniozaawansowany":
+      case intermediateText.toLowerCase():
         return "var(--warning-color)";
-      case "zaawansowany":
+      case advancedText.toLowerCase():
         return "var(--error-color)";
       default:
         return "var(--text-secondary)";
@@ -82,17 +77,17 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
         <div className="card-icon">
           <BarChart3 size={20} />
         </div>
-        <h3 className="card-title">Analizator Tekstu</h3>
+        <h3 className="card-title">{t("textAnalyzer.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Tekst do analizy</label>
+        <label className="form-label">{t("textAnalyzer.textLabel")}</label>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Wklej tutaj tekst do szczegółowej analizy..."
+          placeholder={t("textAnalyzer.textPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "150px" }}
         />
@@ -109,12 +104,12 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
         ) : (
           <FileSearch size={16} />
         )}
-        Analizuj Tekst
+        {t("textAnalyzer.analyze")}
       </button>
 
       {analysis && (
         <div className="result-container">
-          <div className="result-title">Analiza tekstu:</div>
+          <div className="result-title">{t("textAnalyzer.resultTitle")}</div>
 
           <div
             style={{
@@ -142,7 +137,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                 {analysis.word_count}
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
-                Słów
+                {t("textAnalyzer.metrics.words")}
               </div>
             </div>
 
@@ -164,7 +159,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                 {analysis.readability}
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
-                Czytelność
+                {t("textAnalyzer.metrics.readability")}
               </div>
             </div>
 
@@ -186,7 +181,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                 {analysis.tone}
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
-                Ton
+                {t("textAnalyzer.metrics.tone")}
               </div>
             </div>
 
@@ -208,7 +203,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                 {analysis.complexity_level}
               </div>
               <div style={{ fontSize: "0.8rem", color: "var(--text-muted)" }}>
-                Poziom
+                {t("textAnalyzer.metrics.level")}
               </div>
             </div>
           </div>
@@ -221,7 +216,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                   marginBottom: "calc(var(--spacing-unit) * 2)",
                 }}
               >
-                Kluczowe tematy:
+                {t("textAnalyzer.sections.keyTopics")}
               </div>
               <div
                 style={{
@@ -258,7 +253,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                   marginBottom: "calc(var(--spacing-unit) * 1)",
                 }}
               >
-                Grupa docelowa:
+                {t("textAnalyzer.sections.targetAudience")}
               </div>
               <div style={{ color: "var(--text-secondary)" }}>
                 {analysis.target_audience}
@@ -275,7 +270,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                   color: "var(--success-color)",
                 }}
               >
-                Mocne strony:
+                {t("textAnalyzer.sections.strengths")}
               </div>
               <ul style={{ listStyle: "none", padding: 0 }}>
                 {analysis.strengths.map((strength, index) => (
@@ -306,7 +301,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                   color: "var(--warning-color)",
                 }}
               >
-                Sugestie poprawy:
+                {t("textAnalyzer.sections.suggestions")}
               </div>
               <ul style={{ listStyle: "none", padding: 0 }}>
                 {analysis.suggestions.map((suggestion, index) => (

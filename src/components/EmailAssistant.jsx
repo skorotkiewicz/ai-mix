@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Mail, Send, User, Briefcase } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function EmailAssistant() {
   const [purpose, setPurpose] = useState("");
@@ -10,30 +11,25 @@ export function EmailAssistant() {
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
-  const tones = {
-    professional: "Profesjonalny",
-    friendly: "Przyjazny",
-    formal: "Formalny",
-    casual: "Swobodny",
-    persuasive: "Przekonujący",
-  };
+  const getToneLabel = (key) => t(`emailAssistant.tones.${key}`);
 
   const templates = [
     {
       id: "meeting",
-      label: "Zaproszenie na spotkanie",
+      label: t('emailAssistant.templates.meeting'),
       icon: <User size={16} />,
     },
     {
       id: "follow-up",
-      label: "Follow-up po spotkaniu",
+      label: t('emailAssistant.templates.follow-up'),
       icon: <Briefcase size={16} />,
     },
-    { id: "apology", label: "Email z przeprosinami", icon: <Mail size={16} /> },
+    { id: "apology", label: t('emailAssistant.templates.apology'), icon: <Mail size={16} /> },
     {
       id: "introduction",
-      label: "Email przedstawiający się",
+      label: t('emailAssistant.templates.introduction'),
       icon: <User size={16} />,
     },
   ];
@@ -44,28 +40,16 @@ export function EmailAssistant() {
     setIsLoading(true);
     setError("");
 
-    const toneInstructions = {
-      professional: "profesjonalnym i biznesowym",
-      friendly: "przyjaznym i ciepłym",
-      formal: "formalnym i oficjalnym",
-      casual: "swobodnym i nieformalnym",
-      persuasive: "przekonującym i motywującym",
-    };
-
-    const prompt = `Napisz email w ${toneInstructions[tone]} tonie. 
-
-Cel emaila: ${purpose}
-${recipient ? `Odbiorca: ${recipient}` : ""}
-${context ? `Dodatkowy kontekst: ${context}` : ""}
-
-Email powinien zawierać:
-- Odpowiedni temat
-- Właściwe powitanie
-- Główną treść
-- Grzeczne zakończenie
-- Podpis
-
-Zwróć kompletny email gotowy do wysłania:`;
+    const toneInstruction = t(`emailAssistant.toneInstructions.${tone}`);
+    const recipientText = recipient ? t('emailAssistant.recipientPrompt', { recipient }) : '';
+    const contextText = context ? t('emailAssistant.contextPrompt', { context }) : '';
+    
+    const prompt = t('emailAssistant.prompt', {
+      tone: toneInstruction,
+      purpose,
+      recipientText,
+      contextText
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -80,17 +64,7 @@ Zwróć kompletny email gotowy do wysłania:`;
   };
 
   const mainTemplate = (templateId) => {
-    const templates_content = {
-      meeting:
-        "Chciałbym zaprosić Cię na spotkanie w sprawie omówienia projektu. Czy masz czas w przyszłym tygodniu?",
-      "follow-up":
-        "Dziękuję za dzisiejsze spotkanie. Chciałbym podsumować główne punkty i następne kroki.",
-      apology:
-        "Chciałbym przeprosić za opóźnienie w odpowiedzi i wyjaśnić sytuację.",
-      introduction:
-        "Chciałbym się przedstawić jako nowy członek zespołu i nawiązać współpracę.",
-    };
-    setPurpose(templates_content[templateId]);
+    setPurpose(t(`emailAssistant.templateContent.${templateId}`));
   };
 
   return (
@@ -99,13 +73,13 @@ Zwróć kompletny email gotowy do wysłania:`;
         <div className="card-icon">
           <Mail size={20} />
         </div>
-        <h3 className="card-title">Asystent Email</h3>
+        <h3 className="card-title">{t('emailAssistant.title')}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div style={{ marginBottom: "calc(var(--spacing-unit) * 3)" }}>
-        <div className="form-label">Szablony emaili:</div>
+        <div className="form-label">{t('emailAssistant.templatesLabel')}</div>
         <div
           style={{
             display: "flex",
@@ -133,11 +107,11 @@ Zwróć kompletny email gotowy do wysłania:`;
       </div>
 
       <div className="form-group">
-        <label className="form-label">Cel emaila</label>
+        <label className="form-label">{t('emailAssistant.purposeLabel')}</label>
         <textarea
           value={purpose}
           onChange={(e) => setPurpose(e.target.value)}
-          placeholder="Np. Chcę zaprosić klienta na spotkanie w sprawie nowego projektu..."
+          placeholder={t('emailAssistant.purposePlaceholder')}
           className="form-textarea"
         />
       </div>
@@ -150,26 +124,26 @@ Zwróć kompletny email gotowy do wysłania:`;
         }}
       >
         <div className="form-group">
-          <label className="form-label">Odbiorca (opcjonalnie)</label>
+          <label className="form-label">{t('emailAssistant.recipientLabel')}</label>
           <input
             type="text"
             value={recipient}
             onChange={(e) => setRecipient(e.target.value)}
-            placeholder="Np. Pan Kowalski, dyrektor..."
+            placeholder={t('emailAssistant.recipientPlaceholder')}
             className="form-input"
           />
         </div>
 
         <div className="form-group">
-          <label className="form-label">Ton emaila</label>
+          <label className="form-label">{t('emailAssistant.toneLabel')}</label>
           <select
             value={tone}
             onChange={(e) => setTone(e.target.value)}
             className="form-select"
           >
-            {Object.entries(tones).map(([key, label]) => (
+            {Object.keys({professional: '', friendly: '', formal: '', casual: '', persuasive: ''}).map((key) => (
               <option key={key} value={key}>
-                {label}
+                {getToneLabel(key)}
               </option>
             ))}
           </select>
@@ -177,11 +151,11 @@ Zwróć kompletny email gotowy do wysłania:`;
       </div>
 
       <div className="form-group">
-        <label className="form-label">Dodatkowy kontekst (opcjonalnie)</label>
+        <label className="form-label">{t('emailAssistant.contextLabel')}</label>
         <textarea
           value={context}
           onChange={(e) => setContext(e.target.value)}
-          placeholder="Dodatkowe informacje, które mogą być przydatne..."
+          placeholder={t('emailAssistant.contextPlaceholder')}
           className="form-textarea"
           style={{ minHeight: "80px" }}
         />
@@ -194,12 +168,12 @@ Zwróć kompletny email gotowy do wysłania:`;
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Send size={16} />}
-        Generuj Email
+        {t('emailAssistant.generate')}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">Wygenerowany email:</div>
+          <div className="result-title">{t('emailAssistant.resultTitle')}</div>
           <div className="result-text">{result}</div>
         </div>
       )}

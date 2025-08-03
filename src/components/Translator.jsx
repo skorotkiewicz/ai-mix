@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Languages, ArrowRight } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function Translator() {
   const [inputText, setInputText] = useState("");
@@ -8,18 +9,19 @@ export function Translator() {
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const languages = {
-    english: "Angielski",
-    spanish: "Hiszpański",
-    french: "Francuski",
-    german: "Niemiecki",
-    italian: "Włoski",
-    portuguese: "Portugalski",
-    russian: "Rosyjski",
-    chinese: "Chiński",
-    japanese: "Japoński",
-    korean: "Koreański",
+    english: t("translator.languages.english"),
+    spanish: t("translator.languages.spanish"),
+    french: t("translator.languages.french"),
+    german: t("translator.languages.german"),
+    italian: t("translator.languages.italian"),
+    portuguese: t("translator.languages.portuguese"),
+    russian: t("translator.languages.russian"),
+    chinese: t("translator.languages.chinese"),
+    japanese: t("translator.languages.japanese"),
+    korean: t("translator.languages.korean"),
   };
 
   const translateText = async () => {
@@ -28,9 +30,10 @@ export function Translator() {
     setIsLoading(true);
     setError("");
 
-    const prompt = `Przetłumacz następujący tekst na język ${languages[targetLang]}. Zwróć tylko przetłumaczony tekst bez dodatkowych komentarzy:
-
-${inputText}`;
+    const prompt = t("translator.prompt", {
+      language: languages[targetLang],
+      text: inputText
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -50,24 +53,24 @@ ${inputText}`;
         <div className="card-icon">
           <Languages size={20} />
         </div>
-        <h3 className="card-title">Tłumacz AI</h3>
+        <h3 className="card-title">{t("translator.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Tekst do tłumaczenia</label>
+        <label className="form-label">{t("translator.inputLabel")}</label>
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="Wprowadź tekst do przetłumaczenia..."
+          placeholder={t("translator.inputPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "120px" }}
         />
       </div>
 
       <div className="form-group">
-        <label className="form-label">Język docelowy</label>
+        <label className="form-label">{t("translator.targetLanguageLabel")}</label>
         <select
           value={targetLang}
           onChange={(e) => setTargetLang(e.target.value)}
@@ -92,13 +95,13 @@ ${inputText}`;
         ) : (
           <ArrowRight size={16} />
         )}
-        Przetłumacz
+        {t("translator.generate")}
       </button>
 
       {result && (
         <div className="result-container">
           <div className="result-title">
-            Tłumaczenie na {languages[targetLang]}:
+            {t("translator.resultTitle", { language: languages[targetLang] })}
           </div>
           <div className="result-text">{result}</div>
         </div>

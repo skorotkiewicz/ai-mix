@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Lightbulb, Target, TrendingUp } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function ContentIdeas() {
   const [niche, setNiche] = useState("");
@@ -10,15 +11,9 @@ export function ContentIdeas() {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
-  const platforms = {
-    blog: "Blog/Artykuły",
-    social: "Media społecznościowe",
-    youtube: "YouTube/Video",
-    podcast: "Podcast",
-    newsletter: "Newsletter",
-    linkedin: "LinkedIn",
-  };
+  const getPlatformLabel = (key) => t(`contentIdeas.platforms.${key}`);
 
   const generateIdeas = async () => {
     if (!niche.trim()) return;
@@ -26,27 +21,13 @@ export function ContentIdeas() {
     setIsLoading(true);
     setError("");
 
-    let prompt = `Wygeneruj ${count} kreatywnych i angażujących pomysłów na treści dla ${platforms[platform]} w niszy: ${niche}.`;
-
-    if (audience) prompt += ` Grupa docelowa: ${audience}.`;
-
-    prompt += `
-
-Każdy pomysł powinien zawierać:
-- Tytuł/temat
-- Krótki opis (1-2 zdania)
-- Dlaczego może zainteresować odbiorców
-
-Format odpowiedzi:
-1. [Tytuł] - [Krótki opis] - [Dlaczego interesujące]
-
-Pomysły powinny być:
-- Aktualne i trendy
-- Angażujące dla odbiorców
-- Praktyczne do zrealizowania
-- Różnorodne
-
-Odpowiedz w języku polskim:`;
+    const audienceText = audience ? t('contentIdeas.audiencePrompt', { audience }) : '';
+    const prompt = t('contentIdeas.prompt', {
+      count,
+      platform: getPlatformLabel(platform),
+      niche,
+      audienceText
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -80,18 +61,18 @@ Odpowiedz w języku polskim:`;
         <div className="card-icon">
           <Lightbulb size={20} />
         </div>
-        <h3 className="card-title">Generator Pomysłów na Treści</h3>
+        <h3 className="card-title">{t('contentIdeas.title')}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Nisza/Branża</label>
+        <label className="form-label">{t('contentIdeas.nicheLabel')}</label>
         <input
           type="text"
           value={niche}
           onChange={(e) => setNiche(e.target.value)}
-          placeholder="Np. technologia, zdrowie, biznes, gotowanie..."
+          placeholder={t('contentIdeas.nichePlaceholder')}
           className="form-input"
         />
       </div>
@@ -104,33 +85,33 @@ Odpowiedz w języku polskim:`;
         }}
       >
         <div className="form-group">
-          <label className="form-label">Platforma</label>
+          <label className="form-label">{t('contentIdeas.platformLabel')}</label>
           <select
             value={platform}
             onChange={(e) => setPlatform(e.target.value)}
             className="form-select"
           >
-            {Object.entries(platforms).map(([key, label]) => (
+            {Object.keys({blog: '', social: '', youtube: '', podcast: '', newsletter: '', linkedin: ''}).map((key) => (
               <option key={key} value={key}>
-                {label}
+                {getPlatformLabel(key)}
               </option>
             ))}
           </select>
         </div>
 
         <div className="form-group">
-          <label className="form-label">Grupa docelowa (opcjonalnie)</label>
+          <label className="form-label">{t('contentIdeas.audienceLabel')}</label>
           <input
             type="text"
             value={audience}
             onChange={(e) => setAudience(e.target.value)}
-            placeholder="Np. freelancerzy, studenci..."
+            placeholder={t('contentIdeas.audiencePlaceholder')}
             className="form-input"
           />
         </div>
 
         <div className="form-group">
-          <label className="form-label">Liczba</label>
+          <label className="form-label">{t('contentIdeas.countLabel')}</label>
           <select
             value={count}
             onChange={(e) => setCount(Number(e.target.value))}
@@ -155,13 +136,13 @@ Odpowiedz w języku polskim:`;
         ) : (
           <TrendingUp size={16} />
         )}
-        Generuj Pomysły
+        {t('contentIdeas.generate')}
       </button>
 
       {results.length > 0 && (
         <div className="result-container">
           <div className="result-title">
-            Pomysły na treści ({platforms[platform]}):
+            {t('contentIdeas.resultTitle', { platform: getPlatformLabel(platform) })}
           </div>
           <div
             style={{

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, Send, Trash2 } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function ChatComponent() {
   const [messages, setMessages] = useState([]);
@@ -8,6 +9,7 @@ export function ChatComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const chatContainerRef = useRef(null);
+  const { t } = useTranslate();
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -62,7 +64,7 @@ export function ChatComponent() {
         <div className="card-icon">
           <MessageCircle size={20} />
         </div>
-        <h3 className="card-title">Chat z AI</h3>
+        <h3 className="card-title">{t("chat.title")}</h3>
         <button
           type="button"
           onClick={clearChat}
@@ -70,7 +72,7 @@ export function ChatComponent() {
           style={{ marginLeft: "auto" }}
         >
           <Trash2 size={16} />
-          Wyczyść
+          {t("chat.clear")}
         </button>
       </div>
 
@@ -85,7 +87,7 @@ export function ChatComponent() {
               marginTop: "100px",
             }}
           >
-            Rozpocznij rozmowę z AI...
+            {t("chat.emptyState")}
           </div>
         ) : (
           messages.map((message, index) => (
@@ -96,7 +98,7 @@ export function ChatComponent() {
                   marginBottom: "calc(var(--spacing-unit) * 1)",
                 }}
               >
-                {message.role === "user" ? "Ty" : "AI"}
+                {message.role === "user" ? t("chat.you") : t("chat.ai")}
               </div>
               <div>{message.content}</div>
             </div>
@@ -111,7 +113,7 @@ export function ChatComponent() {
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Napisz wiadomość..."
+          placeholder={t("chat.placeholder")}
           className="form-textarea"
           style={{ minHeight: "60px", flex: 1 }}
           disabled={isLoading}
@@ -131,7 +133,7 @@ export function ChatComponent() {
           ) : (
             <Send size={16} />
           )}
-          Wyślij
+          {t("chat.send")}
         </button>
       </div>
     </div>

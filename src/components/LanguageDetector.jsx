@@ -1,28 +1,30 @@
 import { useState } from "react";
 import { Globe, Search } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function LanguageDetector() {
   const [text, setText] = useState("");
   const [result, setResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const sampleTexts = [
     {
-      lang: "Francuski",
+      lang: t('languageDetector.sampleTexts.french'),
       text: "Bonjour, comment allez-vous? J'espère que vous passez une excellente journée.",
     },
     {
-      lang: "Hiszpański",
+      lang: t('languageDetector.sampleTexts.spanish'),
       text: "Hola, ¿cómo estás? Me gusta mucho la comida española y la cultura.",
     },
     {
-      lang: "Niemiecki",
+      lang: t('languageDetector.sampleTexts.german'),
       text: "Guten Tag! Wie geht es Ihnen? Deutschland ist ein wunderschönes Land.",
     },
     {
-      lang: "Włoski",
+      lang: t('languageDetector.sampleTexts.italian'),
       text: "Ciao! Come stai? L'Italia ha una cucina fantastica e una storia ricca.",
     },
   ];
@@ -33,18 +35,7 @@ export function LanguageDetector() {
     setIsLoading(true);
     setError("");
 
-    const prompt = `Wykryj język następującego tekstu i odpowiedz w formacie JSON:
-{
-  "language": "nazwa języka po polsku",
-  "code": "kod ISO (np. en, pl, fr)",
-  "confidence": 0.95,
-  "characteristics": "krótki opis charakterystycznych cech tego języka w tekście"
-}
-
-Tekst do analizy:
-"${text}"
-
-Odpowiedz tylko w formacie JSON:`;
+    const prompt = t('languageDetector.prompt', { text });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -56,10 +47,10 @@ Odpowiedz tylko w formacie JSON:`;
         const analysis = JSON.parse(jsonMatch[0]);
         setResult(analysis);
       } else {
-        throw new Error("Nie udało się wykryć języka");
+        throw new Error(t('languageDetector.errors.parsing'));
       }
     } catch (_err) {
-      setError("Błąd podczas wykrywania języka. Spróbuj ponownie.");
+      setError(t('languageDetector.errors.detection'));
     } finally {
       setIsLoading(false);
     }
@@ -71,13 +62,13 @@ Odpowiedz tylko w formacie JSON:`;
         <div className="card-icon">
           <Globe size={20} />
         </div>
-        <h3 className="card-title">Detektor Języka</h3>
+        <h3 className="card-title">{t('languageDetector.title')}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div style={{ marginBottom: "calc(var(--spacing-unit) * 3)" }}>
-        <div className="form-label">Przykładowe teksty:</div>
+        <div className="form-label">{t('languageDetector.samplesLabel')}</div>
         <div
           style={{
             display: "flex",
@@ -105,11 +96,11 @@ Odpowiedz tylko w formacie JSON:`;
       </div>
 
       <div className="form-group">
-        <label className="form-label">Tekst do analizy</label>
+        <label className="form-label">{t('languageDetector.textLabel')}</label>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Wprowadź tekst w dowolnym języku..."
+          placeholder={t('languageDetector.textPlaceholder')}
           className="form-textarea"
           style={{ minHeight: "120px" }}
         />
@@ -122,12 +113,12 @@ Odpowiedz tylko w formacie JSON:`;
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Search size={16} />}
-        Wykryj Język
+        {t('languageDetector.detect')}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">Wykryty język:</div>
+          <div className="result-title">{t('languageDetector.resultTitle')}</div>
 
           <div
             style={{
@@ -148,7 +139,7 @@ Odpowiedz tylko w formacie JSON:`;
                 {result.language}
               </div>
               <div style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
-                Kod: {result.code}
+                {t('languageDetector.codeLabel')} {result.code}
               </div>
             </div>
 
@@ -163,7 +154,7 @@ Odpowiedz tylko w formacie JSON:`;
                 {Math.round((result.confidence || 0) * 100)}%
               </div>
               <div style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
-                Pewność
+                {t('languageDetector.confidenceLabel')}
               </div>
             </div>
           </div>
@@ -183,7 +174,7 @@ Odpowiedz tylko w formacie JSON:`;
                   marginBottom: "calc(var(--spacing-unit) * 1)",
                 }}
               >
-                Charakterystyka:
+                {t('languageDetector.characteristicsLabel')}
               </div>
               <div style={{ color: "var(--text-secondary)" }}>
                 {result.characteristics}

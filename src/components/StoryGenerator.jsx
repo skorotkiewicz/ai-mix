@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BookOpen, Dice1 } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function StoryGenerator() {
   const [genre, setGenre] = useState("fantasy");
@@ -11,22 +12,23 @@ export function StoryGenerator() {
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const genres = {
-    fantasy: "Fantasy",
-    scifi: "Science Fiction",
-    mystery: "Kryminał",
-    romance: "Romans",
-    horror: "Horror",
-    adventure: "Przygodowy",
-    comedy: "Komedia",
-    drama: "Dramat",
+    fantasy: t("storyGenerator.genres.fantasy"),
+    scifi: t("storyGenerator.genres.scifi"),
+    mystery: t("storyGenerator.genres.mystery"),
+    romance: t("storyGenerator.genres.romance"),
+    horror: t("storyGenerator.genres.horror"),
+    adventure: t("storyGenerator.genres.adventure"),
+    comedy: t("storyGenerator.genres.comedy"),
+    drama: t("storyGenerator.genres.drama"),
   };
 
   const lengths = {
-    short: "Krótkie opowiadanie (1-2 strony)",
-    medium: "Średnie opowiadanie (3-4 strony)",
-    long: "Długie opowiadanie (5+ stron)",
+    short: t("storyGenerator.lengths.short"),
+    medium: t("storyGenerator.lengths.medium"),
+    long: t("storyGenerator.lengths.long"),
   };
 
   const generateStory = async () => {
@@ -34,18 +36,22 @@ export function StoryGenerator() {
     setError("");
 
     const lengthInstructions = {
-      short: "krótkie opowiadanie (około 500-800 słów)",
-      medium: "średnie opowiadanie (około 1000-1500 słów)",
-      long: "długie opowiadanie (około 2000+ słów)",
+      short: t("storyGenerator.lengthInstructions.short"),
+      medium: t("storyGenerator.lengthInstructions.medium"),
+      long: t("storyGenerator.lengthInstructions.long"),
     };
 
-    let prompt = `Napisz ${lengthInstructions[length]} w gatunku ${genres[genre]}.`;
-
-    if (characters) prompt += ` Główne postacie: ${characters}.`;
-    if (setting) prompt += ` Miejsce akcji: ${setting}.`;
-    if (plot) prompt += ` Fabuła: ${plot}.`;
-
-    prompt += ` Opowiadanie powinno być kompletne z wprowadzeniem, rozwinięciem i zakończeniem. Pisz w języku polskim.`;
+    const prompt = t("storyGenerator.prompt", {
+      length: lengthInstructions[length],
+      genre: genres[genre],
+      charactersText: characters
+        ? t("storyGenerator.charactersPrompt", { characters })
+        : "",
+      settingText: setting
+        ? t("storyGenerator.settingPrompt", { setting })
+        : "",
+      plotText: plot ? t("storyGenerator.plotPrompt", { plot }) : "",
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -60,29 +66,15 @@ export function StoryGenerator() {
   };
 
   const generateRandomPrompt = () => {
-    const randomCharacters = [
-      "młody wojownik i mądra czarodziejka",
-      "detektyw i jego tajemniczy partner",
-      "kosmonauta i alien",
-      "dwoje nastolatków z różnych światów",
-      "stary rybak i dziwne stworzenie z morza",
-    ];
-
-    const randomSettings = [
-      "magiczny las pełen tajemnic",
-      "futurystyczne miasto w roku 3024",
-      "opuszczona wyspa na oceanie",
-      "mała wioska w górach",
-      "stacja kosmiczna na krańcu galaktyki",
-    ];
-
-    const randomPlots = [
-      "muszą odnaleźć starożytny artefakt",
-      "odkrywają spisek zagrażający światu",
-      "próbują wrócić do domu",
-      "muszą ocalić swoje miasto",
-      "szukają odpowiedzi na zagadkę życia",
-    ];
+    const randomCharacters = t("storyGenerator.randomPrompts.characters", {
+      returnObjects: true,
+    });
+    const randomSettings = t("storyGenerator.randomPrompts.settings", {
+      returnObjects: true,
+    });
+    const randomPlots = t("storyGenerator.randomPrompts.plots", {
+      returnObjects: true,
+    });
 
     setCharacters(
       randomCharacters[Math.floor(Math.random() * randomCharacters.length)],
@@ -99,7 +91,7 @@ export function StoryGenerator() {
         <div className="card-icon">
           <BookOpen size={20} />
         </div>
-        <h3 className="card-title">Generator Opowiadań</h3>
+        <h3 className="card-title">{t("storyGenerator.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
@@ -117,7 +109,7 @@ export function StoryGenerator() {
           className="btn btn-secondary"
         >
           <Dice1 size={16} />
-          Losowy Pomysł
+          {t("storyGenerator.randomIdea")}
         </button>
       </div>
 
@@ -129,7 +121,7 @@ export function StoryGenerator() {
         }}
       >
         <div className="form-group">
-          <label className="form-label">Gatunek</label>
+          <label className="form-label">{t("storyGenerator.genreLabel")}</label>
           <select
             value={genre}
             onChange={(e) => setGenre(e.target.value)}
@@ -144,7 +136,9 @@ export function StoryGenerator() {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Długość</label>
+          <label className="form-label">
+            {t("storyGenerator.lengthLabel")}
+          </label>
           <select
             value={length}
             onChange={(e) => setLength(e.target.value)}
@@ -160,33 +154,35 @@ export function StoryGenerator() {
       </div>
 
       <div className="form-group">
-        <label className="form-label">Główne postacie (opcjonalnie)</label>
+        <label className="form-label">
+          {t("storyGenerator.charactersLabel")}
+        </label>
         <input
           type="text"
           value={characters}
           onChange={(e) => setCharacters(e.target.value)}
-          placeholder="Np. młody wojownik, mądra czarodziejka..."
+          placeholder={t("storyGenerator.charactersPlaceholder")}
           className="form-input"
         />
       </div>
 
       <div className="form-group">
-        <label className="form-label">Miejsce akcji (opcjonalnie)</label>
+        <label className="form-label">{t("storyGenerator.settingLabel")}</label>
         <input
           type="text"
           value={setting}
           onChange={(e) => setSetting(e.target.value)}
-          placeholder="Np. magiczny las, futurystyczne miasto..."
+          placeholder={t("storyGenerator.settingPlaceholder")}
           className="form-input"
         />
       </div>
 
       <div className="form-group">
-        <label className="form-label">Zarys fabuły (opcjonalnie)</label>
+        <label className="form-label">{t("storyGenerator.plotLabel")}</label>
         <textarea
           value={plot}
           onChange={(e) => setPlot(e.target.value)}
-          placeholder="Np. bohaterowie muszą odnaleźć starożytny artefakt..."
+          placeholder={t("storyGenerator.plotPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "80px" }}
         />
@@ -203,12 +199,12 @@ export function StoryGenerator() {
         ) : (
           <BookOpen size={16} />
         )}
-        Napisz Opowiadanie
+        {t("storyGenerator.generate")}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">Wygenerowane opowiadanie:</div>
+          <div className="result-title">{t("storyGenerator.resultTitle")}</div>
           <div className="result-text" style={{ lineHeight: "1.8" }}>
             {result}
           </div>

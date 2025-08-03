@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { HelpCircle, FileText } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function QASystem() {
   const [context, setContext] = useState("");
@@ -8,15 +9,16 @@ export function QASystem() {
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const sampleContexts = [
     {
-      label: "Dokument firmowy",
-      content: `Nasza firma została założona w 2010 roku i specjalizuje się w tworzeniu oprogramowania. Mamy 50 pracowników w trzech biurach: Warszawa, Kraków i Gdańsk. Oferujemy usługi: tworzenie aplikacji webowych, mobilnych oraz systemy ERP. Naszymi klientami są głównie firmy średnie i duże z sektora finansowego i e-commerce.`,
+      label: t("qaSystem.sampleContexts.company"),
+      content: t("qaSystem.sampleContent.company"),
     },
     {
-      label: "Przepisy kulinarne",
-      content: `Spaghetti Carbonara: Składniki na 4 osoby: 400g spaghetti, 200g pancetta, 4 jajka, 100g parmezanu, pieprz, sól. Ugotuj makaron al dente. Usmaż pancettę. Wymieszaj jajka z parmezanem. Połącz gorący makaron z pancettą, dodaj mieszankę jajeczną poza ogniem. Dopraw pieprzem.`,
+      label: t("qaSystem.sampleContexts.recipes"),
+      content: t("qaSystem.sampleContent.recipes"),
     },
   ];
 
@@ -26,14 +28,10 @@ export function QASystem() {
     setIsLoading(true);
     setError("");
 
-    const prompt = `Na podstawie poniższego kontekstu odpowiedz na pytanie. Jeśli nie możesz znaleźć odpowiedzi w kontekście, powiedz o tym jasno.
-
-KONTEKST:
-${context}
-
-PYTANIE: ${question}
-
-ODPOWIEDŹ:`;
+    const prompt = t("qaSystem.prompt", {
+      context: context,
+      question: question
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -57,13 +55,13 @@ ODPOWIEDŹ:`;
         <div className="card-icon">
           <HelpCircle size={20} />
         </div>
-        <h3 className="card-title">System Q&A</h3>
+        <h3 className="card-title">{t("qaSystem.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div style={{ marginBottom: "calc(var(--spacing-unit) * 3)" }}>
-        <div className="form-label">Przykładowe konteksty:</div>
+        <div className="form-label">{t("qaSystem.sampleContextsLabel")}</div>
         <div
           style={{
             display: "flex",
@@ -91,22 +89,22 @@ ODPOWIEDŹ:`;
       </div>
 
       <div className="form-group">
-        <label className="form-label">Kontekst / Dokument</label>
+        <label className="form-label">{t("qaSystem.contextLabel")}</label>
         <textarea
           value={context}
           onChange={(e) => setContext(e.target.value)}
-          placeholder="Wklej tutaj tekst dokumentu, artykułu lub informacji, na podstawie których AI ma odpowiadać na pytania..."
+          placeholder={t("qaSystem.contextPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "150px" }}
         />
       </div>
 
       <div className="form-group">
-        <label className="form-label">Pytanie</label>
+        <label className="form-label">{t("qaSystem.questionLabel")}</label>
         <textarea
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          placeholder="Zadaj pytanie dotyczące powyższego kontekstu..."
+          placeholder={t("qaSystem.questionPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "80px" }}
         />
@@ -123,12 +121,12 @@ ODPOWIEDŹ:`;
         ) : (
           <HelpCircle size={16} />
         )}
-        Odpowiedz na Pytanie
+        {t("qaSystem.generate")}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">Odpowiedź AI:</div>
+          <div className="result-title">{t("qaSystem.resultTitle")}</div>
           <div className="result-text">{result}</div>
         </div>
       )}

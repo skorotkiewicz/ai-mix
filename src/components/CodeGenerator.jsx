@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Code, Copy, Check } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function CodeGenerator() {
   const [description, setDescription] = useState("");
@@ -10,6 +11,7 @@ export function CodeGenerator() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslate();
 
   const languages = {
     javascript: "JavaScript",
@@ -22,11 +24,7 @@ export function CodeGenerator() {
     rust: "Rust",
   };
 
-  const complexities = {
-    simple: "Prosty (podstawowa funkcjonalność)",
-    intermediate: "Średni (z dodatkowymi funkcjami)",
-    advanced: "Zaawansowany (kompletna implementacja)",
-  };
+  const getComplexityLabel = (key) => t(`codeGenerator.complexities.${key}`);
 
   const generateCode = async () => {
     if (!description.trim()) return;
@@ -34,19 +32,12 @@ export function CodeGenerator() {
     setIsLoading(true);
     setError("");
 
-    const complexityInstructions = {
-      simple: "prostą i podstawową implementację",
-      intermediate:
-        "średnio zaawansowaną implementację z dodatkowymi funkcjami",
-      advanced:
-        "zaawansowaną, kompletną implementację z obsługą błędów i dokumentacją",
-    };
-
-    const prompt = `Napisz ${complexityInstructions[complexity]} w języku ${languages[language]} dla następującego opisu:
-
-${description}
-
-Zwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrze sformatowany.`;
+    const complexityText = t(`codeGenerator.prompts.${complexity}`);
+    const prompt = t('codeGenerator.prompts.instruction', {
+      complexity: complexityText,
+      language: languages[language],
+      description: description
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -76,17 +67,17 @@ Zwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrz
         <div className="card-icon">
           <Code size={20} />
         </div>
-        <h3 className="card-title">Generator Kodu</h3>
+        <h3 className="card-title">{t('codeGenerator.title')}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Opis funkcjonalności</label>
+        <label className="form-label">{t('codeGenerator.descriptionLabel')}</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Np. Funkcja do sortowania tablicy obiektów według daty..."
+          placeholder={t('codeGenerator.descriptionPlaceholder')}
           className="form-textarea"
         />
       </div>
@@ -99,7 +90,7 @@ Zwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrz
         }}
       >
         <div className="form-group">
-          <label className="form-label">Język programowania</label>
+          <label className="form-label">{t('codeGenerator.languageLabel')}</label>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
@@ -114,15 +105,15 @@ Zwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrz
         </div>
 
         <div className="form-group">
-          <label className="form-label">Poziom złożoności</label>
+          <label className="form-label">{t('codeGenerator.complexityLabel')}</label>
           <select
             value={complexity}
             onChange={(e) => setComplexity(e.target.value)}
             className="form-select"
           >
-            {Object.entries(complexities).map(([key, label]) => (
+            {Object.keys({simple: '', intermediate: '', advanced: ''}).map((key) => (
               <option key={key} value={key}>
-                {label}
+                {getComplexityLabel(key)}
               </option>
             ))}
           </select>
@@ -136,7 +127,7 @@ Zwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrz
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Code size={16} />}
-        Generuj Kod
+        {t('codeGenerator.generate')}
       </button>
 
       {result && (
@@ -150,7 +141,7 @@ Zwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrz
             }}
           >
             <div className="result-title">
-              Wygenerowany kod ({languages[language]}):
+              {t('codeGenerator.resultTitle')} ({languages[language]}):
             </div>
             <button
               type="button"

@@ -26,40 +26,39 @@ function App() {
   const [ollamaStatus, setOllamaStatus] = useState("checking");
   const [showOllamaSettings, setShowOllamaSettings] = useState(false);
 
-  // const { t } = useTranslate();
-  //  {t("common.loading")}
+  const { t, changeLanguage, currentLanguage } = useTranslate();
 
   const tabs = [
-    { id: "chat", label: "Chat", component: ChatComponent },
+    { id: "chat", label: t("tabs.chat"), component: ChatComponent },
     {
       id: "text-generator",
-      label: "Generator Tekstu",
+      label: t("tabs.textGenerator"),
       component: TextGenerator,
     },
-    { id: "translator", label: "Tłumacz", component: Translator },
+    { id: "translator", label: t("tabs.translator"), component: Translator },
     {
       id: "sentiment",
-      label: "Analiza Sentimentu",
+      label: t("tabs.sentiment"),
       component: SentimentAnalyzer,
     },
-    { id: "code-generator", label: "Generator Kodu", component: CodeGenerator },
-    { id: "email", label: "Asystent Email", component: EmailAssistant },
-    { id: "poetry", label: "Poezja", component: PoetryGenerator },
-    { id: "titles", label: "Tytuły", component: TitleGenerator },
-    { id: "qa", label: "Q&A", component: QASystem },
-    { id: "stories", label: "Opowiadania", component: StoryGenerator },
-    { id: "recipes", label: "Przepisy", component: RecipeGenerator },
-    { id: "summarizer", label: "Podsumowanie", component: TextSummarizer },
-    { id: "refactor", label: "Refaktor Kodu", component: CodeRefactor },
-    { id: "language", label: "Detektor Języka", component: LanguageDetector },
+    { id: "code-generator", label: t("tabs.codeGenerator"), component: CodeGenerator },
+    { id: "email", label: t("tabs.email"), component: EmailAssistant },
+    { id: "poetry", label: t("tabs.poetry"), component: PoetryGenerator },
+    { id: "titles", label: t("tabs.titles"), component: TitleGenerator },
+    { id: "qa", label: t("tabs.qa"), component: QASystem },
+    { id: "stories", label: t("tabs.stories"), component: StoryGenerator },
+    { id: "recipes", label: t("tabs.recipes"), component: RecipeGenerator },
+    { id: "summarizer", label: t("tabs.summarizer"), component: TextSummarizer },
+    { id: "refactor", label: t("tabs.refactor"), component: CodeRefactor },
+    { id: "language", label: t("tabs.language"), component: LanguageDetector },
     {
       id: "content-ideas",
-      label: "Pomysły na Treści",
+      label: t("tabs.contentIdeas"),
       component: ContentIdeas,
     },
     {
       id: "text-analyzer",
-      label: "Analizator Tekstu",
+      label: t("tabs.textAnalyzer"),
       component: TextAnalyzer,
     },
   ];
@@ -99,7 +98,7 @@ function App() {
           <div className="header-content">
             <div className="logo">
               <Bot size={32} />
-              Ollama AI Studio
+              {t("app.title")}
             </div>
             <div
               style={{
@@ -108,6 +107,22 @@ function App() {
                 gap: "calc(var(--spacing-unit) * 2)",
               }}
             >
+              <div className="language-switcher">
+                <button
+                  type="button"
+                  onClick={() => changeLanguage("en")}
+                  className={`lang-btn ${currentLanguage === "en" ? "active" : ""}`}
+                >
+                  EN
+                </button>
+                <button
+                  type="button"
+                  onClick={() => changeLanguage("pl")}
+                  className={`lang-btn ${currentLanguage === "pl" ? "active" : ""}`}
+                >
+                  PL
+                </button>
+              </div>
               <small>{OllamaAPI.getSelectedModel()}</small>
               <div
                 className={`header-status ${
@@ -119,10 +134,10 @@ function App() {
               >
                 <div className="status-indicator" />
                 {ollamaStatus === "connected"
-                  ? "Ollama Połączona"
+                  ? t("app.status.connected")
                   : ollamaStatus === "checking"
-                    ? "Sprawdzanie..."
-                    : "Ollama Niedostępna"}
+                    ? t("app.status.checking")
+                    : t("app.status.unavailable")}
               </div>
             </div>
           </div>
@@ -136,12 +151,11 @@ function App() {
               className="error-message"
               style={{ marginBottom: "calc(var(--spacing-unit) * 3)" }}
             >
-              <strong>Ollama nie jest dostępna!</strong>
+              <strong>{t("app.error.title")}</strong>
               <br />
-              Upewnij się, że Ollama jest zainstalowana i uruchomiona na
-              localhost:11434.
+              {t("app.error.description")}
               <br />
-              Możesz pobrać Ollama z:{" "}
+              {t("app.error.download")}{" "}
               <a
                 href="https://ollama.ai"
                 target="_blank"

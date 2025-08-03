@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FileText, Minimize2 } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function TextSummarizer() {
   const [text, setText] = useState("");
@@ -9,28 +10,29 @@ export function TextSummarizer() {
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const summaryTypes = {
-    bullet: "Punkty kluczowe",
-    paragraph: "Akapit opisowy",
-    abstract: "Abstrakt naukowy",
-    executive: "Streszczenie wykonawcze",
+    bullet: t("textSummarizer.summaryTypes.bullet"),
+    paragraph: t("textSummarizer.summaryTypes.paragraph"),
+    abstract: t("textSummarizer.summaryTypes.abstract"),
+    executive: t("textSummarizer.summaryTypes.executive"),
   };
 
   const lengths = {
-    short: "Krótkie (2-3 zdania)",
-    medium: "Średnie (1 akapit)",
-    long: "Długie (2-3 akapity)",
+    short: t("textSummarizer.lengths.short"),
+    medium: t("textSummarizer.lengths.medium"),
+    long: t("textSummarizer.lengths.long"),
   };
 
   const sampleTexts = [
     {
-      label: "Artykuł naukowy",
-      content: `Sztuczna inteligencja (AI) to technologia, która pozwala maszynom wykonywać zadania zwykle wymagające ludzkiej inteligencji. W ostatnich latach AI dokonała znaczących postępów w dziedzinach takich jak rozpoznawanie obrazów, przetwarzanie języka naturalnego i uczenie maszynowe. Głębokie uczenie się, poddziedzina AI, wykorzystuje sieci neuronowe do analizy dużych zbiorów danych. Zastosowania AI obejmują autonomiczne pojazdy, diagnostykę medyczną, tłumaczenie językowe i systemy rekomendacji. Jednak rozwój AI rodzi także pytania etyczne dotyczące prywatności, bezpieczeństwa i wpływu na rynek pracy.`,
+      label: t("textSummarizer.sampleTexts.scientific"),
+      content: t("textSummarizer.sampleContent.scientific"),
     },
     {
-      label: "Tekst biznesowy",
-      content: `Nasze przedsiębiorstwo przechodzi przez okres transformacji cyfrowej mającej na celu zwiększenie efektywności operacyjnej i poprawę doświadczenia klientów. Plan strategiczny obejmuje implementację nowych systemów IT, automatyzację procesów, szkolenie personelu oraz inwestycje w technologie chmurowe. Przewidujemy, że pełna transformacja zajmie 18 miesięcy i przyniesie oszczędności w wysokości 2 milionów złotych rocznie. Kluczowymi elementami są: modernizacja infrastruktury, integracja systemów CRM i ERP, oraz wprowadzenie rozwiązań Business Intelligence.`,
+      label: t("textSummarizer.sampleTexts.business"),
+      content: t("textSummarizer.sampleContent.business"),
     },
   ];
 
@@ -41,23 +43,23 @@ export function TextSummarizer() {
     setError("");
 
     const typeInstructions = {
-      bullet: "w formie punktów kluczowych",
-      paragraph: "w formie spójnego akapitu",
-      abstract: "w formie abstrakt naukowy z najważniejszymi informacjami",
-      executive: "w formie streszczenia wykonawczego dla kadry zarządzającej",
+      bullet: t("textSummarizer.typeInstructions.bullet"),
+      paragraph: t("textSummarizer.typeInstructions.paragraph"),
+      abstract: t("textSummarizer.typeInstructions.abstract"),
+      executive: t("textSummarizer.typeInstructions.executive"),
     };
 
     const lengthInstructions = {
-      short: "bardzo krótkie (2-3 zdania)",
-      medium: "średnie (około 100-150 słów)",
-      long: "szczegółowe (około 200-300 słów)",
+      short: t("textSummarizer.lengthInstructions.short"),
+      medium: t("textSummarizer.lengthInstructions.medium"),
+      long: t("textSummarizer.lengthInstructions.long"),
     };
 
-    const prompt = `Stwórz ${lengthInstructions[length]} streszczenie następującego tekstu ${typeInstructions[summaryType]}:
-
-${text}
-
-Streszczenie powinno zawierać najważniejsze informacje i być napisane w języku polskim:`;
+    const prompt = t("textSummarizer.prompt", {
+      lengthInstruction: lengthInstructions[length],
+      typeInstruction: typeInstructions[summaryType],
+      text: text
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -81,13 +83,13 @@ Streszczenie powinno zawierać najważniejsze informacje i być napisane w języ
         <div className="card-icon">
           <FileText size={20} />
         </div>
-        <h3 className="card-title">Podsumowywacz Tekstu</h3>
+        <h3 className="card-title">{t("textSummarizer.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div style={{ marginBottom: "calc(var(--spacing-unit) * 3)" }}>
-        <div className="form-label">Przykładowe teksty:</div>
+        <div className="form-label">{t("textSummarizer.sampleTextsLabel")}</div>
         <div
           style={{
             display: "flex",
@@ -115,11 +117,11 @@ Streszczenie powinno zawierać najważniejsze informacje i być napisane w języ
       </div>
 
       <div className="form-group">
-        <label className="form-label">Tekst do podsumowania</label>
+        <label className="form-label">{t("textSummarizer.textLabel")}</label>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Wklej tutaj długi tekst, artykuł lub dokument do podsumowania..."
+          placeholder={t("textSummarizer.textPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "150px" }}
         />
@@ -133,7 +135,7 @@ Streszczenie powinno zawierać najważniejsze informacje i być napisane w języ
         }}
       >
         <div className="form-group">
-          <label className="form-label">Typ streszczenia</label>
+          <label className="form-label">{t("textSummarizer.summaryTypeLabel")}</label>
           <select
             value={summaryType}
             onChange={(e) => setSummaryType(e.target.value)}
@@ -148,7 +150,7 @@ Streszczenie powinno zawierać najważniejsze informacje i być napisane w języ
         </div>
 
         <div className="form-group">
-          <label className="form-label">Długość</label>
+          <label className="form-label">{t("textSummarizer.lengthLabel")}</label>
           <select
             value={length}
             onChange={(e) => setLength(e.target.value)}
@@ -174,12 +176,12 @@ Streszczenie powinno zawierać najważniejsze informacje i być napisane w języ
         ) : (
           <Minimize2 size={16} />
         )}
-        Podsumuj Tekst
+        {t("textSummarizer.generate")}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">Streszczenie:</div>
+          <div className="result-title">{t("textSummarizer.resultTitle")}</div>
           <div className="result-text">{result}</div>
         </div>
       )}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Type, RefreshCw } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function TitleGenerator() {
   const [content, setContent] = useState("");
@@ -9,15 +10,16 @@ export function TitleGenerator() {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const categories = {
-    blog: "Post na blog",
-    article: "Artykuł naukowy",
-    news: "Artykuł informacyjny",
-    marketing: "Materiał marketingowy",
-    tutorial: "Tutorial/Poradnik",
-    review: "Recenzja",
-    story: "Opowiadanie",
+    blog: t("titleGenerator.categories.blog"),
+    article: t("titleGenerator.categories.article"),
+    news: t("titleGenerator.categories.news"),
+    marketing: t("titleGenerator.categories.marketing"),
+    tutorial: t("titleGenerator.categories.tutorial"),
+    review: t("titleGenerator.categories.review"),
+    story: t("titleGenerator.categories.story"),
   };
 
   const generateTitles = async () => {
@@ -26,18 +28,11 @@ export function TitleGenerator() {
     setIsLoading(true);
     setError("");
 
-    const prompt = `Na podstawie następującej treści wygeneruj ${count} kreatywnych i atrakcyjnych tytułów dla ${categories[category]}:
-
-Treść:
-${content}
-
-Tytuły powinny być:
-- Przyciągające uwagę
-- Dokładnie opisujące treść
-- Odpowiednie dla kategorii "${categories[category]}"
-- W języku polskim
-
-Zwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:`;
+    const prompt = t("titleGenerator.prompt", {
+      count: count,
+      category: categories[category],
+      content: content
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -64,17 +59,17 @@ Zwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:`;
         <div className="card-icon">
           <Type size={20} />
         </div>
-        <h3 className="card-title">Generator Tytułów</h3>
+        <h3 className="card-title">{t("titleGenerator.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Treść lub opis</label>
+        <label className="form-label">{t("titleGenerator.contentLabel")}</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="Opisz treść artykułu, posta lub materiału..."
+          placeholder={t("titleGenerator.contentPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "120px" }}
         />
@@ -88,7 +83,7 @@ Zwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:`;
         }}
       >
         <div className="form-group">
-          <label className="form-label">Kategoria</label>
+          <label className="form-label">{t("titleGenerator.categoryLabel")}</label>
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -103,7 +98,7 @@ Zwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:`;
         </div>
 
         <div className="form-group">
-          <label className="form-label">Liczba tytułów</label>
+          <label className="form-label">{t("titleGenerator.countLabel")}</label>
           <select
             value={count}
             onChange={(e) => setCount(Number(e.target.value))}
@@ -127,12 +122,12 @@ Zwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:`;
         ) : (
           <RefreshCw size={16} />
         )}
-        Generuj Tytuły
+        {t("titleGenerator.generate")}
       </button>
 
       {results.length > 0 && (
         <div className="result-container">
-          <div className="result-title">Propozycje tytułów:</div>
+          <div className="result-title">{t("titleGenerator.resultTitle")}</div>
           <div
             style={{
               display: "flex",
@@ -152,7 +147,7 @@ Zwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:`;
                   transition: "all 0.3s ease",
                 }}
                 onClick={() => navigator.clipboard.writeText(title)}
-                title="Kliknij aby skopiować"
+                title={t("titleGenerator.clickToCopy")}
               >
                 <div
                   style={{ fontWeight: "500", color: "var(--text-primary)" }}

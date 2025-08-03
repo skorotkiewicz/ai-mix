@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Feather, Sparkles } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function PoetryGenerator() {
   const [theme, setTheme] = useState("");
@@ -9,24 +10,25 @@ export function PoetryGenerator() {
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const styles = {
-    free: "Wolny vers",
-    sonnet: "Sonet",
-    haiku: "Haiku",
-    limerick: "Limerick",
-    ballad: "Ballada",
-    rhyming: "Rymowany",
+    free: t("poetryGenerator.styles.free"),
+    sonnet: t("poetryGenerator.styles.sonnet"),
+    haiku: t("poetryGenerator.styles.haiku"),
+    limerick: t("poetryGenerator.styles.limerick"),
+    ballad: t("poetryGenerator.styles.ballad"),
+    rhyming: t("poetryGenerator.styles.rhyming"),
   };
 
   const moods = {
-    romantic: "Romantyczny",
-    melancholic: "Melancholijny",
-    joyful: "Radosny",
-    dramatic: "Dramatyczny",
-    peaceful: "Spokojny",
-    mysterious: "Tajemniczy",
-    neutral: "Neutralny",
+    romantic: t("poetryGenerator.moods.romantic"),
+    melancholic: t("poetryGenerator.moods.melancholic"),
+    joyful: t("poetryGenerator.moods.joyful"),
+    dramatic: t("poetryGenerator.moods.dramatic"),
+    peaceful: t("poetryGenerator.moods.peaceful"),
+    mysterious: t("poetryGenerator.moods.mysterious"),
+    neutral: t("poetryGenerator.moods.neutral"),
   };
 
   const generatePoetry = async () => {
@@ -36,27 +38,29 @@ export function PoetryGenerator() {
     setError("");
 
     const styleInstructions = {
-      free: "w formie wolnego wersu bez rymu",
-      sonnet: "w formie sonetu (14 wersów z odpowiednim schematem rymów)",
-      haiku: "w formie haiku (3 wersy, 5-7-5 sylab)",
-      limerick: "w formie limericka (5 wersów, humorystyczny)",
-      ballad: "w formie ballady (opowiadający, rytmiczny)",
-      rhyming: "w formie rymowanej z regularnym schematem",
+      free: t("poetryGenerator.styleInstructions.free"),
+      sonnet: t("poetryGenerator.styleInstructions.sonnet"),
+      haiku: t("poetryGenerator.styleInstructions.haiku"),
+      limerick: t("poetryGenerator.styleInstructions.limerick"),
+      ballad: t("poetryGenerator.styleInstructions.ballad"),
+      rhyming: t("poetryGenerator.styleInstructions.rhyming"),
     };
 
     const moodInstructions = {
-      romantic: "romantycznym i czułym",
-      melancholic: "melancholijnym i refleksyjnym",
-      joyful: "radosnym i pełnym energii",
-      dramatic: "dramatycznym i intensywnym",
-      peaceful: "spokojnym i harmonijnym",
-      mysterious: "tajemniczym i intrygującym",
-      neutral: "zrównoważonym",
+      romantic: t("poetryGenerator.moodInstructions.romantic"),
+      melancholic: t("poetryGenerator.moodInstructions.melancholic"),
+      joyful: t("poetryGenerator.moodInstructions.joyful"),
+      dramatic: t("poetryGenerator.moodInstructions.dramatic"),
+      peaceful: t("poetryGenerator.moodInstructions.peaceful"),
+      mysterious: t("poetryGenerator.moodInstructions.mysterious"),
+      neutral: t("poetryGenerator.moodInstructions.neutral"),
     };
 
-    const prompt = `Napisz wiersz ${styleInstructions[style]} w ${moodInstructions[mood]} nastroju na temat: ${theme}
-
-Wiersz powinien być oryginalny, poetycki i emocjonalny. Zwróć tylko sam wiersz bez dodatkowych komentarzy.`;
+    const prompt = t("poetryGenerator.prompt", {
+      style: styleInstructions[style],
+      mood: moodInstructions[mood],
+      theme: theme
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -76,18 +80,18 @@ Wiersz powinien być oryginalny, poetycki i emocjonalny. Zwróć tylko sam wiers
         <div className="card-icon">
           <Feather size={20} />
         </div>
-        <h3 className="card-title">Generator Poezji</h3>
+        <h3 className="card-title">{t("poetryGenerator.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Temat wiersza</label>
+        <label className="form-label">{t("poetryGenerator.themeLabel")}</label>
         <input
           type="text"
           value={theme}
           onChange={(e) => setTheme(e.target.value)}
-          placeholder="Np. Jesień w parku, miłość, samotność..."
+          placeholder={t("poetryGenerator.themePlaceholder")}
           className="form-input"
         />
       </div>
@@ -100,7 +104,7 @@ Wiersz powinien być oryginalny, poetycki i emocjonalny. Zwróć tylko sam wiers
         }}
       >
         <div className="form-group">
-          <label className="form-label">Forma poetycka</label>
+          <label className="form-label">{t("poetryGenerator.styleLabel")}</label>
           <select
             value={style}
             onChange={(e) => setStyle(e.target.value)}
@@ -115,7 +119,7 @@ Wiersz powinien być oryginalny, poetycki i emocjonalny. Zwróć tylko sam wiers
         </div>
 
         <div className="form-group">
-          <label className="form-label">Nastrój</label>
+          <label className="form-label">{t("poetryGenerator.moodLabel")}</label>
           <select
             value={mood}
             onChange={(e) => setMood(e.target.value)}
@@ -141,12 +145,12 @@ Wiersz powinien być oryginalny, poetycki i emocjonalny. Zwróć tylko sam wiers
         ) : (
           <Sparkles size={16} />
         )}
-        Napisz Wiersz
+        {t("poetryGenerator.generate")}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">Wygenerowany wiersz:</div>
+          <div className="result-title">{t("poetryGenerator.resultTitle")}</div>
           <div
             className="result-text"
             style={{ fontStyle: "italic", textAlign: "center" }}

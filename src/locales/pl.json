@@ -1,15 +1,523 @@
 {
   "translation": {
-    "common": {
-      "loading": "Ładowanie...",
-      "error": "Wystąpił błąd",
-      "submit": "Wyślij",
-      "cancel": "Anuluj"
+    "app": {
+      "title": "Ollama AI Studio",
+      "status": {
+        "connected": "Ollama Połączona",
+        "checking": "Sprawdzanie...",
+        "unavailable": "Ollama Niedostępna"
+      },
+      "error": {
+        "title": "Ollama nie jest dostępna!",
+        "description": "Upewnij się, że Ollama jest zainstalowana i uruchomiona na localhost:11434.",
+        "download": "Możesz pobrać Ollama z:"
+      }
     },
-    "theme": {
-      "toggle": "Przełącz tryb jasny/ciemny",
-      "dark": "Tryb ciemny",
-      "light": "Tryb jasny"
+    "tabs": {
+      "chat": "Chat",
+      "textGenerator": "Generator Tekstu",
+      "translator": "Tłumacz",
+      "sentiment": "Analiza Sentimentu",
+      "codeGenerator": "Generator Kodu",
+      "email": "Asystent Email",
+      "poetry": "Poezja",
+      "titles": "Tytuły",
+      "qa": "Q&A",
+      "stories": "Opowiadania",
+      "recipes": "Przepisy",
+      "summarizer": "Podsumowanie",
+      "refactor": "Refaktor Kodu",
+      "language": "Detektor Języka",
+      "contentIdeas": "Pomysły na Treści",
+      "textAnalyzer": "Analizator Tekstu"
+    },
+    "chat": {
+      "title": "Chat z AI",
+      "clear": "Wyczyść",
+      "placeholder": "Napisz wiadomość...",
+      "send": "Wyślij",
+      "emptyState": "Rozpocznij rozmowę z AI...",
+      "you": "Ty",
+      "ai": "AI"
+    },
+    "codeGenerator": {
+      "title": "Generator Kodu",
+      "descriptionLabel": "Opis funkcjonalności",
+      "descriptionPlaceholder": "Np. Funkcja do sortowania tablicy obiektów według daty...",
+      "languageLabel": "Język programowania",
+      "complexityLabel": "Poziom złożoności",
+      "generate": "Generuj Kod",
+      "resultTitle": "Wygenerowany kod",
+      "complexities": {
+        "simple": "Prosty (podstawowa funkcjonalność)",
+        "intermediate": "Średni (z dodatkowymi funkcjami)",
+        "advanced": "Zaawansowany (kompletna implementacja)"
+      },
+      "prompts": {
+        "simple": "prostą i podstawową implementację",
+        "intermediate": "średnio zaawansowaną implementację z dodatkowymi funkcjami",
+        "advanced": "zaawansowaną, kompletną implementację z obsługą błędów i dokumentacją",
+        "instruction": "Napisz {{complexity}} w języku {{language}} dla następującego opisu:\n\n{{description}}\n\nZwróć tylko kod bez dodatkowych komentarzy. Kod powinien być czytelny i dobrze sformatowany."
+      }
+    },
+    "sentimentAnalyzer": {
+      "title": "Analiza Sentimentu",
+      "textLabel": "Tekst do analizy",
+      "textPlaceholder": "Wprowadź tekst do analizy sentimentu...",
+      "analyze": "Analizuj Sentiment",
+      "resultTitle": "Wynik analizy:",
+      "confidence": "Pewność: {{percent}}%",
+      "explanation": "Wyjaśnienie:",
+      "sentiments": {
+        "positive": "Pozytywny",
+        "negative": "Negatywny",
+        "neutral": "Neutralny"
+      },
+      "errors": {
+        "analysis": "Błąd podczas analizy sentimentu. Spróbuj ponownie.",
+        "parsing": "Nie udało się przeanalizować sentimentu"
+      },
+      "prompt": "Przeanalizuj sentiment następującego tekstu i odpowiedz w formacie JSON:\n{\n  \"sentiment\": \"positive/negative/neutral\",\n  \"confidence\": 0.85,\n  \"explanation\": \"krótkie wyjaśnienie dlaczego taki sentiment\"\n}\n\nTekst do analizy:\n\"{{text}}\"\n\nOdpowiedz tylko w formacie JSON bez dodatkowych komentarzy:"
+    },
+    "codeRefactor": {
+      "title": "Refaktor Kodu",
+      "loadSample": "Załaduj przykładowy kod",
+      "codeLabel": "Kod do refaktoryzacji",
+      "codePlaceholder": "Wklej kod, który chcesz zrefaktoryzować...",
+      "languageLabel": "Język programowania",
+      "refactorTypeLabel": "Typ refaktoryzacji",
+      "refactor": "Refaktoryzuj Kod",
+      "resultTitle": "Zrefaktoryzowany kod:",
+      "refactorTypes": {
+        "optimize": "Optymalizacja wydajności",
+        "clean": "Czytelność kodu",
+        "modern": "Modernizacja składni",
+        "security": "Bezpieczeństwo",
+        "structure": "Struktura i organizacja",
+        "comments": "Dodanie komentarzy"
+      },
+      "instructions": {
+        "optimize": "zoptymalizuj kod pod kątem wydajności, usuń niepotrzebne operacje",
+        "clean": "popraw czytelność kodu, dodaj lepsze nazwy zmiennych i funkcji",
+        "modern": "zaktualizuj kod do nowoczesnej składni i najlepszych praktyk",
+        "security": "popraw bezpieczeństwo kodu, dodaj walidację i obsługę błędów",
+        "structure": "popraw strukturę i organizację kodu, dodaj modularność",
+        "comments": "dodaj szczegółowe komentarze wyjaśniające działanie kodu"
+      },
+      "prompt": "Przeprowadź refaktoryzację następującego kodu w języku {{language}}. \nCel refaktoryzacji: {{instruction}}.\n\nOryginalny kod:\n```{{languageKey}}\n{{code}}\n```\n\nZwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:"
+    },
+    "contentIdeas": {
+      "title": "Generator Pomysłów na Treści",
+      "nicheLabel": "Nisza/Branża",
+      "nichePlaceholder": "Np. technologia, zdrowie, biznes, gotowanie...",
+      "platformLabel": "Platforma",
+      "audienceLabel": "Grupa docelowa (opcjonalnie)",
+      "audiencePlaceholder": "Np. freelancerzy, studenci...",
+      "countLabel": "Liczba",
+      "generate": "Generuj Pomysły",
+      "resultTitle": "Pomysły na treści ({{platform}}):",
+      "platforms": {
+        "blog": "Blog/Artykuły",
+        "social": "Media społecznościowe",
+        "youtube": "YouTube/Video",
+        "podcast": "Podcast",
+        "newsletter": "Newsletter",
+        "linkedin": "LinkedIn"
+      },
+      "prompt": "Wygeneruj {{count}} kreatywnych i angażujących pomysłów na treści dla {{platform}} w niszy: {{niche}}.{{audienceText}}\n\nKażdy pomysł powinien zawierać:\n- Tytuł/temat\n- Krótki opis (1-2 zdania)\n- Dlaczego może zainteresować odbiorców\n\nFormat odpowiedzi:\n1. [Tytuł] - [Krótki opis] - [Dlaczego interesujące]\n\nPomysły powinny być:\n- Aktualne i trendy\n- Angażujące dla odbiorców\n- Praktyczne do zrealizowania\n- Różnorodne\n\nOdpowiedz w języku polskim:",
+      "audiencePrompt": " Grupa docelowa: {{audience}}."
+    },
+    "ollamaSettings": {
+      "title": "Ustawienia Ollama",
+      "connectionStatus": {
+        "connected": "Połączono z Ollama",
+        "disconnected": "Brak połączenia z Ollama",
+        "modelsFound": "Znaleziono {{count}} modeli",
+        "checkConnection": "Sprawdź URL i upewnij się, że Ollama jest uruchomiona"
+      },
+      "urlLabel": "URL Ollama",
+      "save": "Zapisz",
+      "checking": "Sprawdzanie...",
+      "testConnection": "Sprawdź połączenie",
+      "modelLabel": "Model",
+      "selectedModel": "Wybrany model: {{model}}",
+      "urlHint": "Przykład: http://localhost:11434 lub http://192.168.1.100:11434"
+    },
+    "emailAssistant": {
+      "title": "Asystent Email",
+      "templatesLabel": "Szablony emaili:",
+      "purposeLabel": "Cel emaila",
+      "purposePlaceholder": "Np. Chcę zaprosić klienta na spotkanie w sprawie nowego projektu...",
+      "recipientLabel": "Odbiorca (opcjonalnie)",
+      "recipientPlaceholder": "Np. Pan Kowalski, dyrektor...",
+      "toneLabel": "Ton emaila",
+      "contextLabel": "Dodatkowy kontekst (opcjonalnie)",
+      "contextPlaceholder": "Dodatkowe informacje, które mogą być przydatne...",
+      "generate": "Generuj Email",
+      "resultTitle": "Wygenerowany email:",
+      "templates": {
+        "meeting": "Zaproszenie na spotkanie",
+        "follow-up": "Follow-up po spotkaniu",
+        "apology": "Email z przeprosinami",
+        "introduction": "Email przedstawiający się"
+      },
+      "tones": {
+        "professional": "Profesjonalny",
+        "friendly": "Przyjazny",
+        "formal": "Formalny",
+        "casual": "Swobodny",
+        "persuasive": "Przekonujący"
+      },
+      "toneInstructions": {
+        "professional": "profesjonalnym i biznesowym",
+        "friendly": "przyjaznym i ciepłym",
+        "formal": "formalnym i oficjalnym",
+        "casual": "swobodnym i nieformalnym",
+        "persuasive": "przekonującym i motywującym"
+      },
+      "templateContent": {
+        "meeting": "Chciałbym zaprosić Cię na spotkanie w sprawie omówienia projektu. Czy masz czas w przyszłym tygodniu?",
+        "follow-up": "Dziękuję za dzisiejsze spotkanie. Chciałbym podsumować główne punkty i następne kroki.",
+        "apology": "Chciałbym przeprosić za opóźnienie w odpowiedzi i wyjaśnić sytuację.",
+        "introduction": "Chciałbym się przedstawić jako nowy członek zespołu i nawiązać współpracę."
+      },
+      "prompt": "Napisz email w {{tone}} tonie.\n\nCel emaila: {{purpose}}{{recipientText}}{{contextText}}\n\nEmail powinien zawierać:\n- Odpowiedni temat\n- Właściwe powtanie\n- Główną treść\n- Grzeczne zakończenie\n- Podpis\n\nZwróć kompletny email gotowy do wysłania:",
+      "recipientPrompt": "\nOdbiorca: {{recipient}}",
+      "contextPrompt": "\nDodatkowy kontekst: {{context}}"
+    },
+    "languageDetector": {
+      "title": "Detektor Języka",
+      "samplesLabel": "Przykładowe teksty:",
+      "textLabel": "Tekst do analizy",
+      "textPlaceholder": "Wprowadź tekst w dowolnym języku...",
+      "detect": "Wykryj Język",
+      "resultTitle": "Wykryty język:",
+      "codeLabel": "Kod:",
+      "confidenceLabel": "Pewność",
+      "characteristicsLabel": "Charakterystyka:",
+      "sampleTexts": {
+        "french": "Francuski",
+        "spanish": "Hiszpański",
+        "german": "Niemiecki",
+        "italian": "Włoski"
+      },
+      "errors": {
+        "detection": "Błąd podczas wykrywania języka. Spróbuj ponownie.",
+        "parsing": "Nie udało się wykryć języka"
+      },
+      "prompt": "Wykryj język następującego tekstu i odpowiedz w formacie JSON:\n{\n  \"language\": \"nazwa języka po polsku\",\n  \"code\": \"kod ISO (np. en, pl, fr)\",\n  \"confidence\": 0.95,\n  \"characteristics\": \"krótki opis charakterystycznych cech tego języka w tekście\"\n}\n\nTekst do analizy:\n\"{{text}}\"\n\nOdpowiedz tylko w formacie JSON:"
+    },
+    "textAnalyzer": {
+      "title": "Analizator Tekstu",
+      "textLabel": "Tekst do analizy",
+      "textPlaceholder": "Wklej tutaj tekst do szczegółowej analizy...",
+      "analyze": "Analizuj Tekst",
+      "resultTitle": "Analiza tekstu:",
+      "metrics": {
+        "words": "Słów",
+        "readability": "Czytelność",
+        "tone": "Ton",
+        "level": "Poziom"
+      },
+      "sections": {
+        "keyTopics": "Kluczowe tematy:",
+        "targetAudience": "Grupa docelowa:",
+        "strengths": "Mocne strony:",
+        "suggestions": "Sugestie poprawy:"
+      },
+      "readabilityLevels": {
+        "easy": "łatwy",
+        "medium": "średni",
+        "hard": "trudny"
+      },
+      "complexityLevels": {
+        "basic": "podstawowy",
+        "intermediate": "średniezaawansowany",
+        "advanced": "zaawansowany"
+      },
+      "errors": {
+        "analysis": "Błąd podczas analizy tekstu. Spróbuj ponownie.",
+        "parsing": "Nie udało się przeanalizować tekstu"
+      },
+      "prompt": "Przeanalizuj następujący tekst i odpowiedz w formacie JSON:\n{\n  \"word_count\": 150,\n  \"readability\": \"łatwy/średni/trudny\",\n  \"tone\": \"formalny/nieformalny/neutralny\",\n  \"key_topics\": [\"temat1\", \"temat2\", \"temat3\"],\n  \"complexity_level\": \"podstawowy/średniezaawansowany/zaawansowany\",\n  \"target_audience\": \"opisz dla kogo może być ten tekst\",\n  \"strengths\": [\"mocna strona 1\", \"mocna strona 2\"],\n  \"suggestions\": [\"sugestia poprawy 1\", \"sugestia poprawy 2\"]\n}\n\nTekst do analizy:\n\"{{text}}\"\n\nOdpowiedz tylko w formacie JSON bez dodatkowych komentarzy:"
+    },
+    "storyGenerator": {
+      "title": "Generator Opowiadań",
+      "randomIdea": "Losowy Pomysł",
+      "genreLabel": "Gatunek",
+      "lengthLabel": "Długość",
+      "charactersLabel": "Główne postacie (opcjonalnie)",
+      "charactersPlaceholder": "Np. młody wojownik, mądra czarodziejka...",
+      "settingLabel": "Miejsce akcji (opcjonalnie)",
+      "settingPlaceholder": "Np. magiczny las, futurystyczne miasto...",
+      "plotLabel": "Zarys fabuły (opcjonalnie)",
+      "plotPlaceholder": "Np. bohaterowie muszą odnaleźć starożytny artefakt...",
+      "generate": "Napisz Opowiadanie",
+      "resultTitle": "Wygenerowane opowiadanie:",
+      "genres": {
+        "fantasy": "Fantasy",
+        "scifi": "Science Fiction",
+        "mystery": "Kryminał",
+        "romance": "Romans",
+        "horror": "Horror",
+        "adventure": "Przygodowy",
+        "comedy": "Komedia",
+        "drama": "Dramat"
+      },
+      "lengths": {
+        "short": "Krótkie opowiadanie (1-2 strony)",
+        "medium": "Średnie opowiadanie (3-4 strony)",
+        "long": "Długie opowiadanie (5+ stron)"
+      },
+      "lengthInstructions": {
+        "short": "krótkie opowiadanie (około 500-800 słów)",
+        "medium": "średnie opowiadanie (około 1000-1500 słów)",
+        "long": "długie opowiadanie (około 2000+ słów)"
+      },
+      "randomPrompts": {
+        "characters": [
+          "młody wojownik i mądra czarodziejka",
+          "detektyw i jego tajemniczy partner",
+          "kosmonauta i alien",
+          "dwoje nastolatków z różnych światów",
+          "stary rybak i dziwne stworzenie z morza"
+        ],
+        "settings": [
+          "magiczny las pełen tajemnic",
+          "futurystyczne miasto w roku 3024",
+          "opuszczona wyspa na oceanie",
+          "mała wioska w górach",
+          "stacja kosmiczna na krańcu galaktyki"
+        ],
+        "plots": [
+          "muszą odnaleźć starożytny artefakt",
+          "odkrywają spisek zagrażający światu",
+          "próbują wrócić do domu",
+          "muszą ocalić swoje miasto",
+          "szukają odpowiedzi na zagadkę życia"
+        ]
+      },
+      "prompt": "Napisz {{length}} w gatunku {{genre}}.{{charactersText}}{{settingText}}{{plotText}} Opowiadanie powinno być kompletne z wprowadzeniem, rozwinieciem i zakończeniem. Pisz w języku polskim.",
+      "charactersPrompt": " Główne postacie: {{characters}}.",
+      "settingPrompt": " Miejsce akcji: {{setting}}.",
+      "plotPrompt": " Fabuła: {{plot}}."
+    },
+    "poetryGenerator": {
+      "title": "Generator Poezji",
+      "themeLabel": "Temat wiersza",
+      "themePlaceholder": "Np. Jesień w parku, miłość, samotność...",
+      "styleLabel": "Forma poetycka",
+      "moodLabel": "Nastrój",
+      "generate": "Napisz Wiersz",
+      "resultTitle": "Wygenerowany wiersz:",
+      "styles": {
+        "free": "Wolny vers",
+        "sonnet": "Sonet",
+        "haiku": "Haiku",
+        "limerick": "Limerick",
+        "ballad": "Ballada",
+        "rhyming": "Rymowany"
+      },
+      "moods": {
+        "romantic": "Romantyczny",
+        "melancholic": "Melancholijny",
+        "joyful": "Radosny",
+        "dramatic": "Dramatyczny",
+        "peaceful": "Spokojny",
+        "mysterious": "Tajemniczy",
+        "neutral": "Neutralny"
+      },
+      "styleInstructions": {
+        "free": "w formie wolnego wersu bez rymu",
+        "sonnet": "w formie sonetu (14 wersów z odpowiednim schematem rymów)",
+        "haiku": "w formie haiku (3 wersy, 5-7-5 sylab)",
+        "limerick": "w formie limericka (5 wersów, humorystyczny)",
+        "ballad": "w formie ballady (opowiadający, rytmiczny)",
+        "rhyming": "w formie rymowanej z regularnym schematem"
+      },
+      "moodInstructions": {
+        "romantic": "romantycznym i czułym",
+        "melancholic": "melancholijnym i refleksyjnym",
+        "joyful": "radosnym i pełnym energii",
+        "dramatic": "dramatycznym i intensywnym",
+        "peaceful": "spokojnym i harmonijnym",
+        "mysterious": "tajemniczym i intrygującym",
+        "neutral": "zrównoważonym"
+      },
+      "prompt": "Napisz wiersz {{style}} w {{mood}} nastroju na temat: {{theme}}\n\nWiersz powinien być oryginalny, poetycki i emocjonalny. Zwróć tylko sam wiersz bez dodatkowych komentarzy."
+    },
+    "recipeGenerator": {
+      "title": "Generator Przepisów",
+      "ingredientsLabel": "Dostępne składniki",
+      "ingredientsPlaceholder": "Np. kurczak, ryż, papryka, cebula, czosnek, sól, pieprz...",
+      "cuisineLabel": "Kuchnia",
+      "dietTypeLabel": "Typ diety",
+      "servingsLabel": "Porcje",
+      "generate": "Stwórz Przepis",
+      "resultTitle": "Wygenerowany przepis:",
+      "servingsText": {
+        "one": "porcja",
+        "few": "porcje",
+        "many": "porcji"
+      },
+      "cuisines": {
+        "any": "Dowolna",
+        "polish": "Polska",
+        "italian": "Włoska",
+        "chinese": "Chińska",
+        "mexican": "Meksykańska",
+        "indian": "Indyjska",
+        "french": "Francuska",
+        "japanese": "Japońska",
+        "thai": "Tajska"
+      },
+      "dietTypes": {
+        "any": "Dowolna",
+        "vegetarian": "Wegetariańska",
+        "vegan": "Wegańska",
+        "glutenfree": "Bezglutenowa",
+        "keto": "Ketogeniczna",
+        "lowcarb": "Niskowęglowodanowa",
+        "healthy": "Zdrowa"
+      },
+      "prompt": "Stwórz przepis kulinarny używając następujących składników: {{ingredients}}.{{cuisineText}}{{dietTypeText}} Liczba porcji: {{servings}}.\n\nPrzepis powinien zawierać:\n1. Nazwę dania\n2. Listę wszystkich potrzebnych składników z ilościami\n3. Czas przygotowania\n4. Instrukcje krok po kroku\n5. Wskazówki dodatkowe\n\nNapisz w języku polskim, w przystępny sposób:",
+      "cuisinePrompt": " Kuchnia: {{cuisine}}.",
+      "dietTypePrompt": " Dieta: {{dietType}}."
+    },
+    "qaSystem": {
+      "title": "System Q&A",
+      "sampleContextsLabel": "Przykładowe konteksty:",
+      "contextLabel": "Kontekst / Dokument",
+      "contextPlaceholder": "Wklej tutaj tekst dokumentu, artykułu lub informacji, na podstawie których AI ma odpowiadać na pytania...",
+      "questionLabel": "Pytanie",
+      "questionPlaceholder": "Zadaj pytanie dotyczące powyższego kontekstu...",
+      "generate": "Odpowiedz na Pytanie",
+      "resultTitle": "Odpowiedź AI:",
+      "sampleContexts": {
+        "company": "Dokument firmowy",
+        "recipes": "Przepisy kulinarne"
+      },
+      "sampleContent": {
+        "company": "Nasza firma została założona w 2010 roku i specjalizuje się w tworzeniu oprogramowania. Mamy 50 pracowników w trzech biurach: Warszawa, Kraków i Gdańsk. Oferujemy usługi: tworzenie aplikacji webowych, mobilnych oraz systemy ERP. Naszymi klientami są głównie firmy średnie i duże z sektora finansowego i e-commerce.",
+        "recipes": "Spaghetti Carbonara: Składniki na 4 osoby: 400g spaghetti, 200g pancetta, 4 jajka, 100g parmezanu, pieprz, sól. Ugotuj makaron al dente. Usmaż pancettę. Wymieszaj jajka z parmezanem. Połącz gorący makaron z pancettą, dodaj mieszankę jajeczną poza ogniem. Dopraw pieprzem."
+      },
+      "prompt": "Na podstawie poniższego kontekstu odpowiedz na pytanie. Jeśli nie możesz znaleźć odpowiedzi w kontekście, powiedz o tym jasno.\n\nKONTEKST:\n{{context}}\n\nPYTANIE: {{question}}\n\nODPOWIEDŹ:"
+    },
+    "textGenerator": {
+      "title": "Generator Tekstu",
+      "topicLabel": "Temat do napisania",
+      "topicPlaceholder": "Np. Przyszłość sztucznej inteligencji w medycynie...",
+      "styleLabel": "Styl pisania",
+      "lengthLabel": "Długość tekstu",
+      "generate": "Generuj Tekst",
+      "resultTitle": "Wygenerowany tekst:",
+      "styles": {
+        "creative": "Kreatywny i ekspresyjny",
+        "professional": "Profesjonalny i formalny",
+        "casual": "Swobodny i przyjazny",
+        "academic": "Akademicki i naukowy",
+        "humorous": "Humorystyczny i zabawny"
+      },
+      "lengths": {
+        "short": "Krótki (1-2 akapity)",
+        "medium": "Średni (3-4 akapity)",
+        "long": "Długi (5+ akapitów)"
+      },
+      "lengthInstructions": {
+        "short": "Napisz krótki tekst (1-2 akapity)",
+        "medium": "Napisz tekst średniej długości (3-4 akapity)",
+        "long": "Napisz długi, szczegółowy tekst (5+ akapitów)"
+      },
+      "styleInstructions": {
+        "creative": "w kreatywnym, ekspresyjnym stylu",
+        "professional": "w profesjonalnym, formalnym stylu",
+        "casual": "w swobodnym, przyjaznym stylu",
+        "academic": "w akademickim, naukowym stylu",
+        "humorous": "w humorystycznym, zabawnym stylu"
+      },
+      "prompt": "{{lengthInstruction}} {{styleInstruction}} na temat: {{topic}}"
+    },
+    "textSummarizer": {
+      "title": "Podsumowywacz Tekstu",
+      "sampleTextsLabel": "Przykładowe teksty:",
+      "textLabel": "Tekst do podsumowania",
+      "textPlaceholder": "Wklej tutaj długi tekst, artykuł lub dokument do podsumowania...",
+      "summaryTypeLabel": "Typ streszczenia",
+      "lengthLabel": "Długość",
+      "generate": "Podsumuj Tekst",
+      "resultTitle": "Streszczenie:",
+      "summaryTypes": {
+        "bullet": "Punkty kluczowe",
+        "paragraph": "Akapit opisowy",
+        "abstract": "Abstrakt naukowy",
+        "executive": "Streszczenie wykonawcze"
+      },
+      "lengths": {
+        "short": "Krótkie (2-3 zdania)",
+        "medium": "Średnie (1 akapit)",
+        "long": "Długie (2-3 akapity)"
+      },
+      "sampleTexts": {
+        "scientific": "Artykuł naukowy",
+        "business": "Tekst biznesowy"
+      },
+      "sampleContent": {
+        "scientific": "Sztuczna inteligencja (AI) to technologia, która pozwala maszynom wykonywać zadania zwykle wymagające ludzkiej inteligencji. W ostatnich latach AI dokonała znaczących postępów w dziedzinach takich jak rozpoznawanie obrazów, przetwarzanie języka naturalnego i uczenie maszynowe. Głębokie uczenie się, poddziedzina AI, wykorzystuje sieci neuronowe do analizy dużych zbiorów danych. Zastosowania AI obejmują autonomiczne pojazdy, diagnostykę medyczną, tłumaczenie językowe i systemy rekomendacji. Jednak rozwój AI rodzi także pytania etyczne dotyczące prywatności, bezpieczeństwa i wpływu na rynek pracy.",
+        "business": "Nasze przedsiębiorstwo przechodzi przez okres transformacji cyfrowej mającej na celu zwiększenie efektywności operacyjnej i poprawę doświadczenia klientów. Plan strategiczny obejmuje implementację nowych systemów IT, automatyzację procesów, szkolenie personelu oraz inwestycje w technologie chmurowe. Przewidujemy, że pełna transformacja zajmie 18 miesięcy i przyniesie oszczędności w wysokości 2 milionów złotych rocznie. Kluczowymi elementami są: modernizacja infrastruktury, integracja systemów CRM i ERP, oraz wprowadzenie rozwiązań Business Intelligence."
+      },
+      "typeInstructions": {
+        "bullet": "w formie punktów kluczowych",
+        "paragraph": "w formie spójnego akapitu",
+        "abstract": "w formie abstrakt naukowy z najważniejszymi informacjami",
+        "executive": "w formie streszczenia wykonawczego dla kadry zarządzającej"
+      },
+      "lengthInstructions": {
+        "short": "bardzo krótkie (2-3 zdania)",
+        "medium": "średnie (około 100-150 słów)",
+        "long": "szczegółowe (około 200-300 słów)"
+      },
+      "prompt": "Stwórz {{lengthInstruction}} streszczenie następującego tekstu {{typeInstruction}}:\n\n{{text}}\n\nStreszczenie powinno zawierać najważniejsze informacje i być napisane w języku polskim:"
+    },
+    "translator": {
+      "title": "Tłumacz AI",
+      "inputLabel": "Tekst do tłumaczenia",
+      "inputPlaceholder": "Wprowadź tekst do przetłumaczenia...",
+      "targetLanguageLabel": "Język docelowy",
+      "generate": "Przetłumacz",
+      "resultTitle": "Tłumaczenie na {{language}}:",
+      "languages": {
+        "english": "Angielski",
+        "spanish": "Hiszpański",
+        "french": "Francuski",
+        "german": "Niemiecki",
+        "italian": "Włoski",
+        "portuguese": "Portugalski",
+        "russian": "Rosyjski",
+        "chinese": "Chiński",
+        "japanese": "Japoński",
+        "korean": "Koreański"
+      },
+      "prompt": "Przetłumacz następujący tekst na język {{language}}. Zwróć tylko przetłumaczony tekst bez dodatkowych komentarzy:\n\n{{text}}"
+    },
+    "titleGenerator": {
+      "title": "Generator Tytułów",
+      "contentLabel": "Treść lub opis",
+      "contentPlaceholder": "Opisz treść artykułu, posta lub materiału...",
+      "categoryLabel": "Kategoria",
+      "countLabel": "Liczba tytułów",
+      "generate": "Generuj Tytuły",
+      "resultTitle": "Propozycje tytułów:",
+      "clickToCopy": "Kliknij aby skopiować",
+      "categories": {
+        "blog": "Post na blog",
+        "article": "Artykuł naukowy",
+        "news": "Artykuł informacyjny",
+        "marketing": "Materiał marketingowy",
+        "tutorial": "Tutorial/Poradnik",
+        "review": "Recenzja",
+        "story": "Opowiadanie"
+      },
+      "prompt": "Na podstawie następującej treści wygeneruj {{count}} kreatywnych i atrakcyjnych tytułów dla {{category}}:\n\nTreść:\n{{content}}\n\nTytuły powinny być:\n- Przyciągające uwagę\n- Dokładnie opisujące treść\n- Odpowiednie dla kategorii \"{{category}}\"\n- W języku polskim\n\nZwróć tylko listę tytułów, każdy w nowej linii, ponumerowanych:"
     }
   }
 }

@@ -8,6 +8,7 @@ import {
   Save,
 } from "lucide-react";
 import { useOllama } from "../contexts/OllamaContext";
+import useTranslate from "../utils/useTranslate";
 
 export function OllamaSettings({ onClose }) {
   const {
@@ -22,6 +23,7 @@ export function OllamaSettings({ onClose }) {
 
   const [urlInput, setUrlInput] = useState(ollamaUrl);
   const [isChecking, setIsChecking] = useState(false);
+  const { t } = useTranslate();
 
   useEffect(() => {
     setUrlInput(ollamaUrl);
@@ -68,7 +70,7 @@ export function OllamaSettings({ onClose }) {
         <div className="card-icon">
           <Settings size={24} />
         </div>
-        <h3 className="card-title">Ustawienia Ollama</h3>
+        <h3 className="card-title">{t('ollamaSettings.title')}</h3>
         {onClose && (
           <button
             type="button"
@@ -106,20 +108,20 @@ export function OllamaSettings({ onClose }) {
                 }}
               >
                 {isConnected
-                  ? "Połączono z Ollama"
-                  : "Brak połączenia z Ollama"}
+                  ? t('ollamaSettings.connectionStatus.connected')
+                  : t('ollamaSettings.connectionStatus.disconnected')}
               </div>
               <div className="connection-status-subtitle">
                 {isConnected
-                  ? `Znaleziono ${availableModels.length} modeli`
-                  : "Sprawdź URL i upewnij się, że Ollama jest uruchomiona"}
+                  ? t('ollamaSettings.connectionStatus.modelsFound', { count: availableModels.length })
+                  : t('ollamaSettings.connectionStatus.checkConnection')}
               </div>
             </div>
           </div>
 
           {/* Konfiguracja URL */}
           <div className="form-section">
-            <label className="form-label-enhanced">URL Ollama</label>
+            <label className="form-label-enhanced">{t('ollamaSettings.urlLabel')}</label>
             <form onSubmit={handleUrlSubmit} className="form-row">
               <input
                 type="text"
@@ -134,11 +136,11 @@ export function OllamaSettings({ onClose }) {
                 disabled={isChecking}
               >
                 <Save size={20} />
-                {isChecking ? "Sprawdzanie..." : "Zapisz"}
+                {isChecking ? t('ollamaSettings.checking') : t('ollamaSettings.save')}
               </button>
             </form>
             <div className="form-hint">
-              Przykład: http://localhost:11434 lub http://192.168.1.100:11434
+              {t('ollamaSettings.urlHint')}
             </div>
           </div>
 
@@ -153,13 +155,13 @@ export function OllamaSettings({ onClose }) {
               size={16}
               className={isChecking ? "spinning-icon" : ""}
             />
-            {isChecking ? "Sprawdzanie..." : "Sprawdź połączenie"}
+            {isChecking ? t('ollamaSettings.checking') : t('ollamaSettings.testConnection')}
           </button>
 
           {/* Wybór modelu */}
           {availableModels.length > 0 && (
             <div className="form-section">
-              <label className="form-label-enhanced">Model</label>
+              <label className="form-label-enhanced">{t('ollamaSettings.modelLabel')}</label>
               <select
                 value={selectedModel}
                 onChange={handleModelChange}
@@ -172,7 +174,7 @@ export function OllamaSettings({ onClose }) {
                   </option>
                 ))}
               </select>
-              <div className="form-hint">Wybrany model: {selectedModel}</div>
+              <div className="form-hint">{t('ollamaSettings.selectedModel', { model: selectedModel })}</div>
             </div>
           )}
         </div>

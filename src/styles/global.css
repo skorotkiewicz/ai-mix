@@ -836,3 +836,38 @@ body {
 .spinning-icon {
   animation: spin 1s linear infinite;
 }
+
+/* Language Switcher Styles */
+.language-switcher {
+  display: flex;
+  align-items: center;
+  background: var(--background-secondary);
+  border-radius: var(--radius-md);
+  padding: calc(var(--spacing-unit) * 0.5);
+  gap: calc(var(--spacing-unit) * 0.5);
+}
+
+.lang-btn {
+  padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.5);
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  border-radius: calc(var(--radius-md) - 2px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.75rem;
+  min-width: 28px;
+  text-align: center;
+}
+
+.lang-btn:hover {
+  background: var(--background-card);
+  color: var(--text-primary);
+}
+
+.lang-btn.active {
+  background: var(--accent-color);
+  color: var(--text-primary);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

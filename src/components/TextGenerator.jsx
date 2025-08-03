@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FileText, Wand2 } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function TextGenerator() {
   const [prompt, setPrompt] = useState("");
@@ -9,19 +10,20 @@ export function TextGenerator() {
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const styles = {
-    creative: "Kreatywny i ekspresyjny",
-    professional: "Profesjonalny i formalny",
-    casual: "Swobodny i przyjazny",
-    academic: "Akademicki i naukowy",
-    humorous: "Humorystyczny i zabawny",
+    creative: t("textGenerator.styles.creative"),
+    professional: t("textGenerator.styles.professional"),
+    casual: t("textGenerator.styles.casual"),
+    academic: t("textGenerator.styles.academic"),
+    humorous: t("textGenerator.styles.humorous"),
   };
 
   const lengths = {
-    short: "Krótki (1-2 akapity)",
-    medium: "Średni (3-4 akapity)",
-    long: "Długi (5+ akapitów)",
+    short: t("textGenerator.lengths.short"),
+    medium: t("textGenerator.lengths.medium"),
+    long: t("textGenerator.lengths.long"),
   };
 
   const generateText = async () => {
@@ -31,20 +33,24 @@ export function TextGenerator() {
     setError("");
 
     const lengthInstructions = {
-      short: "Napisz krótki tekst (1-2 akapity)",
-      medium: "Napisz tekst średniej długości (3-4 akapity)",
-      long: "Napisz długi, szczegółowy tekst (5+ akapitów)",
+      short: t("textGenerator.lengthInstructions.short"),
+      medium: t("textGenerator.lengthInstructions.medium"),
+      long: t("textGenerator.lengthInstructions.long"),
     };
 
     const styleInstructions = {
-      creative: "w kreatywnym, ekspresyjnym stylu",
-      professional: "w profesjonalnym, formalnym stylu",
-      casual: "w swobodnym, przyjaznym stylu",
-      academic: "w akademickim, naukowym stylu",
-      humorous: "w humorystycznym, zabawnym stylu",
+      creative: t("textGenerator.styleInstructions.creative"),
+      professional: t("textGenerator.styleInstructions.professional"),
+      casual: t("textGenerator.styleInstructions.casual"),
+      academic: t("textGenerator.styleInstructions.academic"),
+      humorous: t("textGenerator.styleInstructions.humorous"),
     };
 
-    const fullPrompt = `${lengthInstructions[length]} ${styleInstructions[style]} na temat: ${prompt}`;
+    const fullPrompt = t("textGenerator.prompt", {
+      lengthInstruction: lengthInstructions[length],
+      styleInstruction: styleInstructions[style],
+      topic: prompt
+    });
 
     try {
       const response = await OllamaAPI.generateText(fullPrompt, null, {
@@ -64,17 +70,17 @@ export function TextGenerator() {
         <div className="card-icon">
           <FileText size={20} />
         </div>
-        <h3 className="card-title">Generator Tekstu</h3>
+        <h3 className="card-title">{t("textGenerator.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Temat do napisania</label>
+        <label className="form-label">{t("textGenerator.topicLabel")}</label>
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Np. Przyszłość sztucznej inteligencji w medycynie..."
+          placeholder={t("textGenerator.topicPlaceholder")}
           className="form-textarea"
         />
       </div>
@@ -87,7 +93,7 @@ export function TextGenerator() {
         }}
       >
         <div className="form-group">
-          <label className="form-label">Styl pisania</label>
+          <label className="form-label">{t("textGenerator.styleLabel")}</label>
           <select
             value={style}
             onChange={(e) => setStyle(e.target.value)}
@@ -102,7 +108,7 @@ export function TextGenerator() {
         </div>
 
         <div className="form-group">
-          <label className="form-label">Długość tekstu</label>
+          <label className="form-label">{t("textGenerator.lengthLabel")}</label>
           <select
             value={length}
             onChange={(e) => setLength(e.target.value)}
@@ -124,12 +130,12 @@ export function TextGenerator() {
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Wand2 size={16} />}
-        Generuj Tekst
+        {t("textGenerator.generate")}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">Wygenerowany tekst:</div>
+          <div className="result-title">{t("textGenerator.resultTitle")}</div>
           <div className="result-text">{result}</div>
         </div>
       )}

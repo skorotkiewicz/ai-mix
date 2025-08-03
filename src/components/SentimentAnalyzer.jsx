@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Heart, Frown, Meh, Smile } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function SentimentAnalyzer() {
   const [text, setText] = useState("");
@@ -9,6 +10,7 @@ export function SentimentAnalyzer() {
   const [explanation, setExplanation] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const analyzeSentiment = async () => {
     if (!text.trim()) return;
@@ -16,17 +18,7 @@ export function SentimentAnalyzer() {
     setIsLoading(true);
     setError("");
 
-    const prompt = `Przeanalizuj sentiment następującego tekstu i odpowiedz w formacie JSON:
-{
-  "sentiment": "positive/negative/neutral",
-  "confidence": 0.85,
-  "explanation": "krótkie wyjaśnienie dlaczego taki sentiment"
-}
-
-Tekst do analizy:
-"${text}"
-
-Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
+    const prompt = t('sentimentAnalyzer.prompt', { text });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -41,10 +33,10 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
         setConfidence(analysis.confidence || 0);
         setExplanation(analysis.explanation || "");
       } else {
-        throw new Error("Nie udało się przeanalizować sentimentu");
+        throw new Error(t('sentimentAnalyzer.errors.parsing'));
       }
     } catch (_err) {
-      setError("Błąd podczas analizy sentimentu. Spróbuj ponownie.");
+      setError(t('sentimentAnalyzer.errors.analysis'));
     } finally {
       setIsLoading(false);
     }
@@ -80,17 +72,17 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
         <div className="card-icon">
           <Heart size={20} />
         </div>
-        <h3 className="card-title">Analiza Sentimentu</h3>
+        <h3 className="card-title">{t('sentimentAnalyzer.title')}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Tekst do analizy</label>
+        <label className="form-label">{t('sentimentAnalyzer.textLabel')}</label>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Wprowadź tekst do analizy sentimentu..."
+          placeholder={t('sentimentAnalyzer.textPlaceholder')}
           className="form-textarea"
           style={{ minHeight: "120px" }}
         />
@@ -103,12 +95,12 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Heart size={16} />}
-        Analizuj Sentiment
+        {t('sentimentAnalyzer.analyze')}
       </button>
 
       {sentiment && (
         <div className="result-container">
-          <div className="result-title">Wynik analizy:</div>
+          <div className="result-title">{t('sentimentAnalyzer.resultTitle')}</div>
 
           <div
             style={{
@@ -120,14 +112,10 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
           >
             <div className={`sentiment-indicator ${getSentimentClass()}`}>
               {getSentimentIcon()}
-              {sentiment === "positive"
-                ? "Pozytywny"
-                : sentiment === "negative"
-                  ? "Negatywny"
-                  : "Neutralny"}
+              {t(`sentimentAnalyzer.sentiments.${sentiment}`)}
             </div>
             <div style={{ color: "var(--text-secondary)" }}>
-              Pewność: {Math.round(confidence * 100)}%
+              {t('sentimentAnalyzer.confidence', { percent: Math.round(confidence * 100) })}
             </div>
           </div>
 
@@ -145,7 +133,7 @@ Odpowiedz tylko w formacie JSON bez dodatkowych komentarzy:`;
                 color: "var(--text-secondary)",
               }}
             >
-              <strong>Wyjaśnienie:</strong> {explanation}
+              <strong>{t('sentimentAnalyzer.explanation')}</strong> {explanation}
             </div>
           )}
         </div>

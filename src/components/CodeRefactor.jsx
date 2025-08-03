@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Code2, RefreshCw, Check } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function CodeRefactor() {
   const [code, setCode] = useState("");
@@ -10,6 +11,7 @@ export function CodeRefactor() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslate();
 
   const languages = {
     javascript: "JavaScript",
@@ -20,14 +22,7 @@ export function CodeRefactor() {
     php: "PHP",
   };
 
-  const refactorTypes = {
-    optimize: "Optymalizacja wydajności",
-    clean: "Czytelność kodu",
-    modern: "Modernizacja składni",
-    security: "Bezpieczeństwo",
-    structure: "Struktura i organizacja",
-    comments: "Dodanie komentarzy",
-  };
+  const getRefactorTypeLabel = (key) => t(`codeRefactor.refactorTypes.${key}`);
 
   const refactorCode = async () => {
     if (!code.trim()) return;
@@ -35,25 +30,13 @@ export function CodeRefactor() {
     setIsLoading(true);
     setError("");
 
-    const instructions = {
-      optimize:
-        "zoptymalizuj kod pod kątem wydajności, usuń niepotrzebne operacje",
-      clean: "popraw czytelność kodu, dodaj lepsze nazwy zmiennych i funkcji",
-      modern: "zaktualizuj kod do nowoczesnej składni i najlepszych praktyk",
-      security: "popraw bezpieczeństwo kodu, dodaj walidację i obsługę błędów",
-      structure: "popraw strukturę i organizację kodu, dodaj modularność",
-      comments: "dodaj szczegółowe komentarze wyjaśniające działanie kodu",
-    };
-
-    const prompt = `Przeprowadź refaktoryzację następującego kodu w języku ${languages[language]}. 
-Cel refaktoryzacji: ${instructions[refactorType]}.
-
-Oryginalny kod:
-\`\`\`${language}
-${code}
-\`\`\`
-
-Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
+    const instruction = t(`codeRefactor.instructions.${refactorType}`);
+    const prompt = t('codeRefactor.prompt', {
+      language: languages[language],
+      instruction: instruction,
+      languageKey: language,
+      code: code
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -105,7 +88,7 @@ Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
         <div className="card-icon">
           <Code2 size={20} />
         </div>
-        <h3 className="card-title">Refaktor Kodu</h3>
+        <h3 className="card-title">{t('codeRefactor.title')}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
@@ -117,16 +100,16 @@ Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
           className="btn btn-secondary"
         >
           <Code2 size={16} />
-          Załaduj przykładowy kod
+          {t('codeRefactor.loadSample')}
         </button>
       </div>
 
       <div className="form-group">
-        <label className="form-label">Kod do refaktoryzacji</label>
+        <label className="form-label">{t('codeRefactor.codeLabel')}</label>
         <textarea
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          placeholder="Wklej kod, który chcesz zrefaktoryzować..."
+          placeholder={t('codeRefactor.codePlaceholder')}
           className="form-textarea"
           style={{
             minHeight: "150px",
@@ -143,7 +126,7 @@ Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
         }}
       >
         <div className="form-group">
-          <label className="form-label">Język programowania</label>
+          <label className="form-label">{t('codeRefactor.languageLabel')}</label>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
@@ -158,15 +141,15 @@ Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
         </div>
 
         <div className="form-group">
-          <label className="form-label">Typ refaktoryzacji</label>
+          <label className="form-label">{t('codeRefactor.refactorTypeLabel')}</label>
           <select
             value={refactorType}
             onChange={(e) => setRefactorType(e.target.value)}
             className="form-select"
           >
-            {Object.entries(refactorTypes).map(([key, label]) => (
+            {Object.keys({optimize: '', clean: '', modern: '', security: '', structure: '', comments: ''}).map((key) => (
               <option key={key} value={key}>
-                {label}
+                {getRefactorTypeLabel(key)}
               </option>
             ))}
           </select>
@@ -184,7 +167,7 @@ Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
         ) : (
           <RefreshCw size={16} />
         )}
-        Refaktoryzuj Kod
+        {t('codeRefactor.refactor')}
       </button>
 
       {result && (
@@ -197,7 +180,7 @@ Zwróć zrefaktoryzowany kod z krótkim wyjaśnieniem zmian:`;
               marginBottom: "calc(var(--spacing-unit) * 2)",
             }}
           >
-            <div className="result-title">Zrefaktoryzowany kod:</div>
+            <div className="result-title">{t('codeRefactor.resultTitle')}</div>
             <button
               type="button"
               onClick={copyToClipboard}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChefHat, Users } from "lucide-react";
 import { OllamaAPI } from "../services/ollamaAPI";
+import useTranslate from "../utils/useTranslate";
 
 export function RecipeGenerator() {
   const [ingredients, setIngredients] = useState("");
@@ -10,27 +11,28 @@ export function RecipeGenerator() {
   const [result, setResult] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const { t } = useTranslate();
 
   const cuisines = {
-    any: "Dowolna",
-    polish: "Polska",
-    italian: "Włoska",
-    chinese: "Chińska",
-    mexican: "Meksykańska",
-    indian: "Indyjska",
-    french: "Francuska",
-    japanese: "Japońska",
-    thai: "Tajska",
+    any: t("recipeGenerator.cuisines.any"),
+    polish: t("recipeGenerator.cuisines.polish"),
+    italian: t("recipeGenerator.cuisines.italian"),
+    chinese: t("recipeGenerator.cuisines.chinese"),
+    mexican: t("recipeGenerator.cuisines.mexican"),
+    indian: t("recipeGenerator.cuisines.indian"),
+    french: t("recipeGenerator.cuisines.french"),
+    japanese: t("recipeGenerator.cuisines.japanese"),
+    thai: t("recipeGenerator.cuisines.thai"),
   };
 
   const dietTypes = {
-    any: "Dowolna",
-    vegetarian: "Wegetariańska",
-    vegan: "Wegańska",
-    glutenfree: "Bezglutenowa",
-    keto: "Ketogeniczna",
-    lowcarb: "Niskowęglowodanowa",
-    healthy: "Zdrowa",
+    any: t("recipeGenerator.dietTypes.any"),
+    vegetarian: t("recipeGenerator.dietTypes.vegetarian"),
+    vegan: t("recipeGenerator.dietTypes.vegan"),
+    glutenfree: t("recipeGenerator.dietTypes.glutenfree"),
+    keto: t("recipeGenerator.dietTypes.keto"),
+    lowcarb: t("recipeGenerator.dietTypes.lowcarb"),
+    healthy: t("recipeGenerator.dietTypes.healthy"),
   };
 
   const generateRecipe = async () => {
@@ -39,21 +41,12 @@ export function RecipeGenerator() {
     setIsLoading(true);
     setError("");
 
-    let prompt = `Stwórz przepis kulinarny używając następujących składników: ${ingredients}.`;
-
-    if (cuisine !== "any") prompt += ` Kuchnia: ${cuisines[cuisine]}.`;
-    if (dietType !== "any") prompt += ` Dieta: ${dietTypes[dietType]}.`;
-
-    prompt += ` Liczba porcji: ${servings}.
-
-Przepis powinien zawierać:
-1. Nazwę dania
-2. Listę wszystkich potrzebnych składników z ilościami
-3. Czas przygotowania
-4. Instrukcje krok po kroku
-5. Wskazówki dodatkowe
-
-Napisz w języku polskim, w przystępny sposób:`;
+    const prompt = t("recipeGenerator.prompt", {
+      ingredients: ingredients,
+      servings: servings,
+      cuisineText: cuisine !== "any" ? t("recipeGenerator.cuisinePrompt", { cuisine: cuisines[cuisine] }) : "",
+      dietTypeText: dietType !== "any" ? t("recipeGenerator.dietTypePrompt", { dietType: dietTypes[dietType] }) : ""
+    });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -73,17 +66,17 @@ Napisz w języku polskim, w przystępny sposób:`;
         <div className="card-icon">
           <ChefHat size={20} />
         </div>
-        <h3 className="card-title">Generator Przepisów</h3>
+        <h3 className="card-title">{t("recipeGenerator.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">Dostępne składniki</label>
+        <label className="form-label">{t("recipeGenerator.ingredientsLabel")}</label>
         <textarea
           value={ingredients}
           onChange={(e) => setIngredients(e.target.value)}
-          placeholder="Np. kurczak, ryż, papryka, cebula, czosnek, sól, pieprz..."
+          placeholder={t("recipeGenerator.ingredientsPlaceholder")}
           className="form-textarea"
         />
       </div>
@@ -96,7 +89,7 @@ Napisz w języku polskim, w przystępny sposób:`;
         }}
       >
         <div className="form-group">
-          <label className="form-label">Kuchnia</label>
+          <label className="form-label">{t("recipeGenerator.cuisineLabel")}</label>
           <select
             value={cuisine}
             onChange={(e) => setCuisine(e.target.value)}
@@ -111,7 +104,7 @@ Napisz w języku polskim, w przystępny sposób:`;
         </div>
 
         <div className="form-group">
-          <label className="form-label">Typ diety</label>
+          <label className="form-label">{t("recipeGenerator.dietTypeLabel")}</label>
           <select
             value={dietType}
             onChange={(e) => setDietType(e.target.value)}
@@ -126,7 +119,7 @@ Napisz w języku polskim, w przystępny sposób:`;
         </div>
 
         <div className="form-group">
-          <label className="form-label">Porcje</label>
+          <label className="form-label">{t("recipeGenerator.servingsLabel")}</label>
           <input
             type="number"
             value={servings}
@@ -149,7 +142,7 @@ Napisz w języku polskim, w przystępny sposób:`;
         ) : (
           <ChefHat size={16} />
         )}
-        Stwórz Przepis
+        {t("recipeGenerator.generate")}
       </button>
 
       {result && (
@@ -162,7 +155,7 @@ Napisz w języku polskim, w przystępny sposób:`;
                 gap: "calc(var(--spacing-unit) * 2)",
               }}
             >
-              Wygenerowany przepis:
+              {t("recipeGenerator.resultTitle")}
               <div
                 style={{
                   display: "flex",
@@ -174,7 +167,7 @@ Napisz w języku polskim, w przystępny sposób:`;
               >
                 <Users size={14} />
                 {servings}{" "}
-                {servings === 1 ? "porcja" : servings < 5 ? "porcje" : "porcji"}
+                {servings === 1 ? t("recipeGenerator.servingsText.one") : servings < 5 ? t("recipeGenerator.servingsText.few") : t("recipeGenerator.servingsText.many")}
               </div>
             </div>
           </div>
