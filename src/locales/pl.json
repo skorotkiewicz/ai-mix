@@ -1,0 +1,15 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Ładowanie...",
+      "error": "Wystąpił błąd",
+      "submit": "Wyślij",
+      "cancel": "Anuluj"
+    },
+    "theme": {
+      "toggle": "Przełącz tryb jasny/ciemny",
+      "dark": "Tryb ciemny",
+      "light": "Tryb jasny"
+    }
+  }
+}

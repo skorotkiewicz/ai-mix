@@ -1,0 +1,15 @@
+{
+  "translation": {
+    "common": {
+      "loading": "Loading...",
+      "error": "An error occurred",
+      "submit": "Submit",
+      "cancel": "Cancel"
+    },
+    "theme": {
+      "toggle": "Toggle dark/light mode",
+      "dark": "Dark mode",
+      "light": "Light mode"
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { OllamaProvider } from "./contexts/OllamaContext";
 import App from "./App";
 import "./index.css";
+import "./utils/i18n";
 
 const Root = () => {
   const AppWithCtx = (

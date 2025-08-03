@@ -19,11 +19,15 @@ import { TextAnalyzer } from "./components/TextAnalyzer";
 import { OllamaSettings } from "./components/OllamaSettings";
 import "./styles/global.css";
 import { OllamaAPI } from "./services/ollamaAPI";
+import useTranslate from "./utils/useTranslate";
 
 function App() {
   const [activeTab, setActiveTab] = useState("chat");
   const [ollamaStatus, setOllamaStatus] = useState("checking");
   const [showOllamaSettings, setShowOllamaSettings] = useState(false);
+
+  // const { t } = useTranslate();
+  //  {t("common.loading")}
 
   const tabs = [
     { id: "chat", label: "Chat", component: ChatComponent },
