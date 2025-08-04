@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Bot } from "lucide-react";
+import { Bot, Globe } from "lucide-react";
 import { ChatComponent } from "./components/ChatComponent";
 import { TextGenerator } from "./components/TextGenerator";
 import { Translator } from "./components/Translator";
@@ -105,7 +105,7 @@ function App() {
       <header className="app-header">
         <div className="container">
           <div className="header-content">
-            <div className="logo">
+            <div className="logo" onClick={() => setActiveTab("welcome")}>
               <Bot size={32} />
               {t("app.title")}
             </div>
@@ -116,30 +116,39 @@ function App() {
                 gap: "calc(var(--spacing-unit) * 2)",
               }}
             >
-              <div className="language-switcher">
-                <button
-                  type="button"
-                  onClick={() => changeLanguage("en")}
-                  className={`lang-btn ${currentLanguage === "en" ? "active" : ""}`}
-                >
-                  EN
-                </button>
-                <button
-                  type="button"
-                  onClick={() => changeLanguage("pl")}
-                  className={`lang-btn ${currentLanguage === "pl" ? "active" : ""}`}
-                >
-                  PL
-                </button>
-                <button
-                  type="button"
-                  onClick={() => changeLanguage("de")}
-                  className={`lang-btn ${currentLanguage === "de" ? "active" : ""}`}
-                >
-                  DE
-                </button>
+              <div className="language-switcher-dropdown">
+                <div className="language-icon">
+                  <Globe size={18} />
+                  <span className="current-lang">{currentLanguage.toUpperCase()}</span>
+                </div>
+                <div className="language-dropdown">
+                  <button
+                    type="button"
+                    onClick={() => changeLanguage("en")}
+                    className={`lang-btn ${currentLanguage === "en" ? "active" : ""}`}
+                  >
+                    EN
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => changeLanguage("pl")}
+                    className={`lang-btn ${currentLanguage === "pl" ? "active" : ""}`}
+                  >
+                    PL
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => changeLanguage("de")}
+                    className={`lang-btn ${currentLanguage === "de" ? "active" : ""}`}
+                  >
+                    DE
+                  </button>
+                </div>
               </div>
-              <small>{OllamaAPI.getSelectedModel()}</small>
+              <div className="model-display" onClick={() => setShowOllamaSettings(true)}>
+                <span className="model-label">Model:</span>
+                <span className="model-name">{OllamaAPI.getSelectedModel()}</span>
+              </div>
               <div
                 className={`header-status ${
                   ollamaStatus === "connected" ? "status-connected" : "status-error"

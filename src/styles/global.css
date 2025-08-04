@@ -73,6 +73,7 @@ body {
   font-weight: 700;
   color: var(--text-primary);
   text-decoration: none;
+  cursor: pointer;
 }
 
 .nav-tabs {
@@ -821,17 +822,61 @@ body {
   animation: spin 1s linear infinite;
 }
 
-/* Language Switcher Styles */
-.language-switcher {
+/* Language Switcher Dropdown Styles */
+.language-switcher-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.language-icon {
   display: flex;
   align-items: center;
+  gap: calc(var(--spacing-unit) * 1);
+  cursor: pointer;
+  padding: calc(var(--spacing-unit) * 1);
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.current-lang {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.language-icon:hover {
+  background: var(--background-card);
+  transform: scale(1.1);
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
   background: var(--background-secondary);
   border-radius: var(--radius-md);
   padding: calc(var(--spacing-unit) * 0.5);
   gap: calc(var(--spacing-unit) * 0.5);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  min-width: 80px;
+}
+
+.language-switcher-dropdown:hover .language-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .lang-btn {
+  display: block;
+  width: 100%;
   padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.5);
   background: transparent;
   color: var(--text-secondary);
@@ -841,8 +886,12 @@ body {
   transition: all 0.2s ease;
   font-weight: 500;
   font-size: 0.75rem;
-  min-width: 28px;
   text-align: center;
+  margin-bottom: calc(var(--spacing-unit) * 0.5);
+}
+
+.lang-btn:last-child {
+  margin-bottom: 0;
 }
 
 .lang-btn:hover {
@@ -854,6 +903,31 @@ body {
   background: var(--accent-color);
   color: var(--text-primary);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Model Display Styles */
+.model-display {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing-unit) * 1);
+  background: var(--background-secondary);
+  padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 1.5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+.model-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.model-name {
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-family: monospace;
 }
 
 /* Welcome Page Styles */
