@@ -32,7 +32,7 @@ export function Translator() {
 
     const prompt = t("translator.prompt", {
       language: languages[targetLang],
-      text: inputText
+      text: inputText,
     });
 
     try {
@@ -90,11 +90,7 @@ export function Translator() {
         disabled={isLoading || !inputText.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <ArrowRight size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <ArrowRight size={16} />}
         {t("translator.generate")}
       </button>
 

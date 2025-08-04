@@ -30,7 +30,7 @@ export function QASystem() {
 
     const prompt = t("qaSystem.prompt", {
       context: context,
-      question: question
+      question: question,
     });
 
     try {
@@ -77,8 +77,7 @@ export function QASystem() {
               className="btn btn-secondary"
               style={{
                 fontSize: "0.8rem",
-                padding:
-                  "calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2)",
+                padding: "calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2)",
               }}
             >
               <FileText size={14} />
@@ -116,11 +115,7 @@ export function QASystem() {
         disabled={isLoading || !context.trim() || !question.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <HelpCircle size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <HelpCircle size={16} />}
         {t("qaSystem.generate")}
       </button>
 

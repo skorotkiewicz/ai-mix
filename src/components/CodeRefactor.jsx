@@ -31,11 +31,11 @@ export function CodeRefactor() {
     setError("");
 
     const instruction = t(`codeRefactor.instructions.${refactorType}`);
-    const prompt = t('codeRefactor.prompt', {
+    const prompt = t("codeRefactor.prompt", {
       language: languages[language],
       instruction: instruction,
       languageKey: language,
-      code: code
+      code: code,
     });
 
     try {
@@ -88,28 +88,24 @@ export function CodeRefactor() {
         <div className="card-icon">
           <Code2 size={20} />
         </div>
-        <h3 className="card-title">{t('codeRefactor.title')}</h3>
+        <h3 className="card-title">{t("codeRefactor.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div style={{ marginBottom: "calc(var(--spacing-unit) * 3)" }}>
-        <button
-          type="button"
-          onClick={loadSampleCode}
-          className="btn btn-secondary"
-        >
+        <button type="button" onClick={loadSampleCode} className="btn btn-secondary">
           <Code2 size={16} />
-          {t('codeRefactor.loadSample')}
+          {t("codeRefactor.loadSample")}
         </button>
       </div>
 
       <div className="form-group">
-        <label className="form-label">{t('codeRefactor.codeLabel')}</label>
+        <label className="form-label">{t("codeRefactor.codeLabel")}</label>
         <textarea
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          placeholder={t('codeRefactor.codePlaceholder')}
+          placeholder={t("codeRefactor.codePlaceholder")}
           className="form-textarea"
           style={{
             minHeight: "150px",
@@ -126,7 +122,7 @@ export function CodeRefactor() {
         }}
       >
         <div className="form-group">
-          <label className="form-label">{t('codeRefactor.languageLabel')}</label>
+          <label className="form-label">{t("codeRefactor.languageLabel")}</label>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
@@ -141,13 +137,20 @@ export function CodeRefactor() {
         </div>
 
         <div className="form-group">
-          <label className="form-label">{t('codeRefactor.refactorTypeLabel')}</label>
+          <label className="form-label">{t("codeRefactor.refactorTypeLabel")}</label>
           <select
             value={refactorType}
             onChange={(e) => setRefactorType(e.target.value)}
             className="form-select"
           >
-            {Object.keys({optimize: '', clean: '', modern: '', security: '', structure: '', comments: ''}).map((key) => (
+            {Object.keys({
+              optimize: "",
+              clean: "",
+              modern: "",
+              security: "",
+              structure: "",
+              comments: "",
+            }).map((key) => (
               <option key={key} value={key}>
                 {getRefactorTypeLabel(key)}
               </option>
@@ -162,12 +165,8 @@ export function CodeRefactor() {
         disabled={isLoading || !code.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <RefreshCw size={16} />
-        )}
-        {t('codeRefactor.refactor')}
+        {isLoading ? <div className="loading-spinner" /> : <RefreshCw size={16} />}
+        {t("codeRefactor.refactor")}
       </button>
 
       {result && (
@@ -180,12 +179,8 @@ export function CodeRefactor() {
               marginBottom: "calc(var(--spacing-unit) * 2)",
             }}
           >
-            <div className="result-title">{t('codeRefactor.resultTitle')}</div>
-            <button
-              type="button"
-              onClick={copyToClipboard}
-              className="copy-button"
-            >
+            <div className="result-title">{t("codeRefactor.resultTitle")}</div>
+            <button type="button" onClick={copyToClipboard} className="copy-button">
               {copied ? <Check size={16} /> : <RefreshCw size={16} />}
             </button>
           </div>

@@ -33,10 +33,10 @@ export function CodeGenerator() {
     setError("");
 
     const complexityText = t(`codeGenerator.prompts.${complexity}`);
-    const prompt = t('codeGenerator.prompts.instruction', {
+    const prompt = t("codeGenerator.prompts.instruction", {
       complexity: complexityText,
       language: languages[language],
-      description: description
+      description: description,
     });
 
     try {
@@ -67,17 +67,17 @@ export function CodeGenerator() {
         <div className="card-icon">
           <Code size={20} />
         </div>
-        <h3 className="card-title">{t('codeGenerator.title')}</h3>
+        <h3 className="card-title">{t("codeGenerator.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">{t('codeGenerator.descriptionLabel')}</label>
+        <label className="form-label">{t("codeGenerator.descriptionLabel")}</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder={t('codeGenerator.descriptionPlaceholder')}
+          placeholder={t("codeGenerator.descriptionPlaceholder")}
           className="form-textarea"
         />
       </div>
@@ -90,7 +90,7 @@ export function CodeGenerator() {
         }}
       >
         <div className="form-group">
-          <label className="form-label">{t('codeGenerator.languageLabel')}</label>
+          <label className="form-label">{t("codeGenerator.languageLabel")}</label>
           <select
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
@@ -105,13 +105,13 @@ export function CodeGenerator() {
         </div>
 
         <div className="form-group">
-          <label className="form-label">{t('codeGenerator.complexityLabel')}</label>
+          <label className="form-label">{t("codeGenerator.complexityLabel")}</label>
           <select
             value={complexity}
             onChange={(e) => setComplexity(e.target.value)}
             className="form-select"
           >
-            {Object.keys({simple: '', intermediate: '', advanced: ''}).map((key) => (
+            {Object.keys({ simple: "", intermediate: "", advanced: "" }).map((key) => (
               <option key={key} value={key}>
                 {getComplexityLabel(key)}
               </option>
@@ -127,7 +127,7 @@ export function CodeGenerator() {
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Code size={16} />}
-        {t('codeGenerator.generate')}
+        {t("codeGenerator.generate")}
       </button>
 
       {result && (
@@ -141,13 +141,9 @@ export function CodeGenerator() {
             }}
           >
             <div className="result-title">
-              {t('codeGenerator.resultTitle')} ({languages[language]}):
+              {t("codeGenerator.resultTitle")} ({languages[language]}):
             </div>
-            <button
-              type="button"
-              onClick={copyToClipboard}
-              className="copy-button"
-            >
+            <button type="button" onClick={copyToClipboard} className="copy-button">
               {copied ? <Check size={16} /> : <Copy size={16} />}
             </button>
           </div>

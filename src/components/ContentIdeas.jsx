@@ -21,12 +21,12 @@ export function ContentIdeas() {
     setIsLoading(true);
     setError("");
 
-    const audienceText = audience ? t('contentIdeas.audiencePrompt', { audience }) : '';
-    const prompt = t('contentIdeas.prompt', {
+    const audienceText = audience ? t("contentIdeas.audiencePrompt", { audience }) : "";
+    const prompt = t("contentIdeas.prompt", {
       count,
       platform: getPlatformLabel(platform),
       niche,
-      audienceText
+      audienceText,
     });
 
     try {
@@ -61,18 +61,18 @@ export function ContentIdeas() {
         <div className="card-icon">
           <Lightbulb size={20} />
         </div>
-        <h3 className="card-title">{t('contentIdeas.title')}</h3>
+        <h3 className="card-title">{t("contentIdeas.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">{t('contentIdeas.nicheLabel')}</label>
+        <label className="form-label">{t("contentIdeas.nicheLabel")}</label>
         <input
           type="text"
           value={niche}
           onChange={(e) => setNiche(e.target.value)}
-          placeholder={t('contentIdeas.nichePlaceholder')}
+          placeholder={t("contentIdeas.nichePlaceholder")}
           className="form-input"
         />
       </div>
@@ -85,13 +85,20 @@ export function ContentIdeas() {
         }}
       >
         <div className="form-group">
-          <label className="form-label">{t('contentIdeas.platformLabel')}</label>
+          <label className="form-label">{t("contentIdeas.platformLabel")}</label>
           <select
             value={platform}
             onChange={(e) => setPlatform(e.target.value)}
             className="form-select"
           >
-            {Object.keys({blog: '', social: '', youtube: '', podcast: '', newsletter: '', linkedin: ''}).map((key) => (
+            {Object.keys({
+              blog: "",
+              social: "",
+              youtube: "",
+              podcast: "",
+              newsletter: "",
+              linkedin: "",
+            }).map((key) => (
               <option key={key} value={key}>
                 {getPlatformLabel(key)}
               </option>
@@ -100,18 +107,18 @@ export function ContentIdeas() {
         </div>
 
         <div className="form-group">
-          <label className="form-label">{t('contentIdeas.audienceLabel')}</label>
+          <label className="form-label">{t("contentIdeas.audienceLabel")}</label>
           <input
             type="text"
             value={audience}
             onChange={(e) => setAudience(e.target.value)}
-            placeholder={t('contentIdeas.audiencePlaceholder')}
+            placeholder={t("contentIdeas.audiencePlaceholder")}
             className="form-input"
           />
         </div>
 
         <div className="form-group">
-          <label className="form-label">{t('contentIdeas.countLabel')}</label>
+          <label className="form-label">{t("contentIdeas.countLabel")}</label>
           <select
             value={count}
             onChange={(e) => setCount(Number(e.target.value))}
@@ -131,18 +138,14 @@ export function ContentIdeas() {
         disabled={isLoading || !niche.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <TrendingUp size={16} />
-        )}
-        {t('contentIdeas.generate')}
+        {isLoading ? <div className="loading-spinner" /> : <TrendingUp size={16} />}
+        {t("contentIdeas.generate")}
       </button>
 
       {results.length > 0 && (
         <div className="result-container">
           <div className="result-title">
-            {t('contentIdeas.resultTitle', { platform: getPlatformLabel(platform) })}
+            {t("contentIdeas.resultTitle", { platform: getPlatformLabel(platform) })}
           </div>
           <div
             style={{

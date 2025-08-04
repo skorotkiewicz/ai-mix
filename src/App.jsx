@@ -98,8 +98,7 @@ function App() {
     }
   };
 
-  const ActiveComponent =
-    tabs.find((tab) => tab.id === activeTab)?.component || WelcomePage;
+  const ActiveComponent = tabs.find((tab) => tab.id === activeTab)?.component || WelcomePage;
 
   return (
     <div style={{ minHeight: "100vh" }}>
@@ -143,9 +142,7 @@ function App() {
               <small>{OllamaAPI.getSelectedModel()}</small>
               <div
                 className={`header-status ${
-                  ollamaStatus === "connected"
-                    ? "status-connected"
-                    : "status-error"
+                  ollamaStatus === "connected" ? "status-connected" : "status-error"
                 }`}
                 onClick={() => setShowOllamaSettings(true)}
               >

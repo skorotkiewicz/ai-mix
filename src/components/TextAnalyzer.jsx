@@ -99,11 +99,7 @@ export function TextAnalyzer() {
         disabled={isLoading || !text.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <FileSearch size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <FileSearch size={16} />}
         {t("textAnalyzer.analyze")}
       </button>
 
@@ -229,8 +225,7 @@ export function TextAnalyzer() {
                   <span
                     key={index}
                     style={{
-                      padding:
-                        "calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2)",
+                      padding: "calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2)",
                       background: "var(--accent-color)",
                       color: "var(--text-primary)",
                       borderRadius: "var(--radius-md)",
@@ -255,9 +250,7 @@ export function TextAnalyzer() {
               >
                 {t("textAnalyzer.sections.targetAudience")}
               </div>
-              <div style={{ color: "var(--text-secondary)" }}>
-                {analysis.target_audience}
-              </div>
+              <div style={{ color: "var(--text-secondary)" }}>{analysis.target_audience}</div>
             </div>
           )}
 

@@ -56,9 +56,7 @@ export function OllamaProvider({ children }) {
     checkConnection,
   };
 
-  return (
-    <OllamaContext.Provider value={value}>{children}</OllamaContext.Provider>
-  );
+  return <OllamaContext.Provider value={value}>{children}</OllamaContext.Provider>;
 }
 
 export function useOllama() {

@@ -58,7 +58,7 @@ export function TextSummarizer() {
     const prompt = t("textSummarizer.prompt", {
       lengthInstruction: lengthInstructions[length],
       typeInstruction: typeInstructions[summaryType],
-      text: text
+      text: text,
     });
 
     try {
@@ -105,8 +105,7 @@ export function TextSummarizer() {
               className="btn btn-secondary"
               style={{
                 fontSize: "0.8rem",
-                padding:
-                  "calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2)",
+                padding: "calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2)",
               }}
             >
               <FileText size={14} />
@@ -171,11 +170,7 @@ export function TextSummarizer() {
         disabled={isLoading || !text.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <Minimize2 size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <Minimize2 size={16} />}
         {t("textSummarizer.generate")}
       </button>
 

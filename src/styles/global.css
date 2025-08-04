@@ -37,11 +37,7 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background: linear-gradient(
-    135deg,
-    var(--background-primary) 0%,
-    var(--primary-color) 100%
-  );
+  background: linear-gradient(135deg, var(--background-primary) 0%, var(--primary-color) 100%);
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
@@ -144,11 +140,7 @@ body {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--accent-color),
-    var(--highlight-color)
-  );
+  background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
@@ -381,11 +373,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    var(--accent-color),
-    var(--highlight-color)
-  );
+  background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
   transition: width 0.3s ease;
 }
 
@@ -648,11 +636,7 @@ body {
 
 .modal-header {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    var(--primary-color),
-    var(--primary-color-dark)
-  );
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-color-dark));
 }
 
 .modal-header .card-title {

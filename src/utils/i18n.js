@@ -38,10 +38,7 @@ const setBrowserLanguage = () => {
   const browserLang = navigator.language.split("-")[0]; // Get language code (e.g., 'en' from 'en-US')
   const supportedLanguages = ["en", "pl", "de"];
 
-  if (
-    supportedLanguages.includes(browserLang) &&
-    i18n.language !== browserLang
-  ) {
+  if (supportedLanguages.includes(browserLang) && i18n.language !== browserLang) {
     i18n.changeLanguage(browserLang);
   }
 };

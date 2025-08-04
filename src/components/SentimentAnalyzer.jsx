@@ -18,7 +18,7 @@ export function SentimentAnalyzer() {
     setIsLoading(true);
     setError("");
 
-    const prompt = t('sentimentAnalyzer.prompt', { text });
+    const prompt = t("sentimentAnalyzer.prompt", { text });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -33,10 +33,10 @@ export function SentimentAnalyzer() {
         setConfidence(analysis.confidence || 0);
         setExplanation(analysis.explanation || "");
       } else {
-        throw new Error(t('sentimentAnalyzer.errors.parsing'));
+        throw new Error(t("sentimentAnalyzer.errors.parsing"));
       }
     } catch (_err) {
-      setError(t('sentimentAnalyzer.errors.analysis'));
+      setError(t("sentimentAnalyzer.errors.analysis"));
     } finally {
       setIsLoading(false);
     }
@@ -72,17 +72,17 @@ export function SentimentAnalyzer() {
         <div className="card-icon">
           <Heart size={20} />
         </div>
-        <h3 className="card-title">{t('sentimentAnalyzer.title')}</h3>
+        <h3 className="card-title">{t("sentimentAnalyzer.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div className="form-group">
-        <label className="form-label">{t('sentimentAnalyzer.textLabel')}</label>
+        <label className="form-label">{t("sentimentAnalyzer.textLabel")}</label>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder={t('sentimentAnalyzer.textPlaceholder')}
+          placeholder={t("sentimentAnalyzer.textPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "120px" }}
         />
@@ -95,12 +95,12 @@ export function SentimentAnalyzer() {
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Heart size={16} />}
-        {t('sentimentAnalyzer.analyze')}
+        {t("sentimentAnalyzer.analyze")}
       </button>
 
       {sentiment && (
         <div className="result-container">
-          <div className="result-title">{t('sentimentAnalyzer.resultTitle')}</div>
+          <div className="result-title">{t("sentimentAnalyzer.resultTitle")}</div>
 
           <div
             style={{
@@ -115,15 +115,12 @@ export function SentimentAnalyzer() {
               {t(`sentimentAnalyzer.sentiments.${sentiment}`)}
             </div>
             <div style={{ color: "var(--text-secondary)" }}>
-              {t('sentimentAnalyzer.confidence', { percent: Math.round(confidence * 100) })}
+              {t("sentimentAnalyzer.confidence", { percent: Math.round(confidence * 100) })}
             </div>
           </div>
 
           <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{ width: `${confidence * 100}%` }}
-            />
+            <div className="progress-fill" style={{ width: `${confidence * 100}%` }} />
           </div>
 
           {explanation && (
@@ -133,7 +130,7 @@ export function SentimentAnalyzer() {
                 color: "var(--text-secondary)",
               }}
             >
-              <strong>{t('sentimentAnalyzer.explanation')}</strong> {explanation}
+              <strong>{t("sentimentAnalyzer.explanation")}</strong> {explanation}
             </div>
           )}
         </div>

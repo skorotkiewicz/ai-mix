@@ -31,7 +31,7 @@ export function TitleGenerator() {
     const prompt = t("titleGenerator.prompt", {
       count: count,
       category: categories[category],
-      content: content
+      content: content,
     });
 
     try {
@@ -117,11 +117,7 @@ export function TitleGenerator() {
         disabled={isLoading || !content.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <RefreshCw size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <RefreshCw size={16} />}
         {t("titleGenerator.generate")}
       </button>
 
@@ -149,9 +145,7 @@ export function TitleGenerator() {
                 onClick={() => navigator.clipboard.writeText(title)}
                 title={t("titleGenerator.clickToCopy")}
               >
-                <div
-                  style={{ fontWeight: "500", color: "var(--text-primary)" }}
-                >
+                <div style={{ fontWeight: "500", color: "var(--text-primary)" }}>
                   {index + 1}. {title}
                 </div>
               </div>

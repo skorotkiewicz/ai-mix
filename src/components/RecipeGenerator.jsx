@@ -44,8 +44,12 @@ export function RecipeGenerator() {
     const prompt = t("recipeGenerator.prompt", {
       ingredients: ingredients,
       servings: servings,
-      cuisineText: cuisine !== "any" ? t("recipeGenerator.cuisinePrompt", { cuisine: cuisines[cuisine] }) : "",
-      dietTypeText: dietType !== "any" ? t("recipeGenerator.dietTypePrompt", { dietType: dietTypes[dietType] }) : ""
+      cuisineText:
+        cuisine !== "any" ? t("recipeGenerator.cuisinePrompt", { cuisine: cuisines[cuisine] }) : "",
+      dietTypeText:
+        dietType !== "any"
+          ? t("recipeGenerator.dietTypePrompt", { dietType: dietTypes[dietType] })
+          : "",
     });
 
     try {
@@ -137,11 +141,7 @@ export function RecipeGenerator() {
         disabled={isLoading || !ingredients.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <ChefHat size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <ChefHat size={16} />}
         {t("recipeGenerator.generate")}
       </button>
 
@@ -167,7 +167,11 @@ export function RecipeGenerator() {
               >
                 <Users size={14} />
                 {servings}{" "}
-                {servings === 1 ? t("recipeGenerator.servingsText.one") : servings < 5 ? t("recipeGenerator.servingsText.few") : t("recipeGenerator.servingsText.many")}
+                {servings === 1
+                  ? t("recipeGenerator.servingsText.one")
+                  : servings < 5
+                    ? t("recipeGenerator.servingsText.few")
+                    : t("recipeGenerator.servingsText.many")}
               </div>
             </div>
           </div>

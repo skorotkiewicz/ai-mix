@@ -37,9 +37,7 @@ export class OllamaAPI {
       return data.response;
     } catch (error) {
       console.error("Ollama API Error:", error);
-      throw new Error(
-        `Failed to connect to Ollama. Make sure Ollama is running on ${ollamaUrl}`,
-      );
+      throw new Error(`Failed to connect to Ollama. Make sure Ollama is running on ${ollamaUrl}`);
     }
   }
 
@@ -91,9 +89,7 @@ export class OllamaAPI {
       }
     } catch (error) {
       console.error("Ollama Stream Error:", error);
-      throw new Error(
-        `Failed to connect to Ollama. Make sure Ollama is running on ${ollamaUrl}`,
-      );
+      throw new Error(`Failed to connect to Ollama. Make sure Ollama is running on ${ollamaUrl}`);
     }
   }
 

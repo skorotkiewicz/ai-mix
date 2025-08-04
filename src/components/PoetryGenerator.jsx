@@ -59,7 +59,7 @@ export function PoetryGenerator() {
     const prompt = t("poetryGenerator.prompt", {
       style: styleInstructions[style],
       mood: moodInstructions[mood],
-      theme: theme
+      theme: theme,
     });
 
     try {
@@ -105,11 +105,7 @@ export function PoetryGenerator() {
       >
         <div className="form-group">
           <label className="form-label">{t("poetryGenerator.styleLabel")}</label>
-          <select
-            value={style}
-            onChange={(e) => setStyle(e.target.value)}
-            className="form-select"
-          >
+          <select value={style} onChange={(e) => setStyle(e.target.value)} className="form-select">
             {Object.entries(styles).map(([key, label]) => (
               <option key={key} value={key}>
                 {label}
@@ -120,11 +116,7 @@ export function PoetryGenerator() {
 
         <div className="form-group">
           <label className="form-label">{t("poetryGenerator.moodLabel")}</label>
-          <select
-            value={mood}
-            onChange={(e) => setMood(e.target.value)}
-            className="form-select"
-          >
+          <select value={mood} onChange={(e) => setMood(e.target.value)} className="form-select">
             {Object.entries(moods).map(([key, label]) => (
               <option key={key} value={key}>
                 {label}
@@ -140,21 +132,14 @@ export function PoetryGenerator() {
         disabled={isLoading || !theme.trim()}
         className="btn"
       >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <Sparkles size={16} />
-        )}
+        {isLoading ? <div className="loading-spinner" /> : <Sparkles size={16} />}
         {t("poetryGenerator.generate")}
       </button>
 
       {result && (
         <div className="result-container">
           <div className="result-title">{t("poetryGenerator.resultTitle")}</div>
-          <div
-            className="result-text"
-            style={{ fontStyle: "italic", textAlign: "center" }}
-          >
+          <div className="result-text" style={{ fontStyle: "italic", textAlign: "center" }}>
             {result}
           </div>
         </div>

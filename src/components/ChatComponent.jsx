@@ -13,8 +13,7 @@ export function ChatComponent() {
 
   useEffect(() => {
     if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop =
-        chatContainerRef.current.scrollHeight;
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -126,10 +125,7 @@ export function ChatComponent() {
           style={{ alignSelf: "flex-end" }}
         >
           {isLoading ? (
-            <span
-              className="loading-spinner"
-              style={{ height: 16, width: 16 }}
-            />
+            <span className="loading-spinner" style={{ height: 16, width: 16 }} />
           ) : (
             <Send size={16} />
           )}

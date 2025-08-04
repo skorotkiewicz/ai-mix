@@ -44,12 +44,8 @@ export function StoryGenerator() {
     const prompt = t("storyGenerator.prompt", {
       length: lengthInstructions[length],
       genre: genres[genre],
-      charactersText: characters
-        ? t("storyGenerator.charactersPrompt", { characters })
-        : "",
-      settingText: setting
-        ? t("storyGenerator.settingPrompt", { setting })
-        : "",
+      charactersText: characters ? t("storyGenerator.charactersPrompt", { characters }) : "",
+      settingText: setting ? t("storyGenerator.settingPrompt", { setting }) : "",
       plotText: plot ? t("storyGenerator.plotPrompt", { plot }) : "",
     });
 
@@ -76,12 +72,8 @@ export function StoryGenerator() {
       returnObjects: true,
     });
 
-    setCharacters(
-      randomCharacters[Math.floor(Math.random() * randomCharacters.length)],
-    );
-    setSetting(
-      randomSettings[Math.floor(Math.random() * randomSettings.length)],
-    );
+    setCharacters(randomCharacters[Math.floor(Math.random() * randomCharacters.length)]);
+    setSetting(randomSettings[Math.floor(Math.random() * randomSettings.length)]);
     setPlot(randomPlots[Math.floor(Math.random() * randomPlots.length)]);
   };
 
@@ -103,11 +95,7 @@ export function StoryGenerator() {
           marginBottom: "calc(var(--spacing-unit) * 3)",
         }}
       >
-        <button
-          type="button"
-          onClick={generateRandomPrompt}
-          className="btn btn-secondary"
-        >
+        <button type="button" onClick={generateRandomPrompt} className="btn btn-secondary">
           <Dice1 size={16} />
           {t("storyGenerator.randomIdea")}
         </button>
@@ -122,11 +110,7 @@ export function StoryGenerator() {
       >
         <div className="form-group">
           <label className="form-label">{t("storyGenerator.genreLabel")}</label>
-          <select
-            value={genre}
-            onChange={(e) => setGenre(e.target.value)}
-            className="form-select"
-          >
+          <select value={genre} onChange={(e) => setGenre(e.target.value)} className="form-select">
             {Object.entries(genres).map(([key, label]) => (
               <option key={key} value={key}>
                 {label}
@@ -136,9 +120,7 @@ export function StoryGenerator() {
         </div>
 
         <div className="form-group">
-          <label className="form-label">
-            {t("storyGenerator.lengthLabel")}
-          </label>
+          <label className="form-label">{t("storyGenerator.lengthLabel")}</label>
           <select
             value={length}
             onChange={(e) => setLength(e.target.value)}
@@ -154,9 +136,7 @@ export function StoryGenerator() {
       </div>
 
       <div className="form-group">
-        <label className="form-label">
-          {t("storyGenerator.charactersLabel")}
-        </label>
+        <label className="form-label">{t("storyGenerator.charactersLabel")}</label>
         <input
           type="text"
           value={characters}
@@ -188,17 +168,8 @@ export function StoryGenerator() {
         />
       </div>
 
-      <button
-        type="button"
-        onClick={generateStory}
-        disabled={isLoading}
-        className="btn"
-      >
-        {isLoading ? (
-          <div className="loading-spinner" />
-        ) : (
-          <BookOpen size={16} />
-        )}
+      <button type="button" onClick={generateStory} disabled={isLoading} className="btn">
+        {isLoading ? <div className="loading-spinner" /> : <BookOpen size={16} />}
         {t("storyGenerator.generate")}
       </button>
 

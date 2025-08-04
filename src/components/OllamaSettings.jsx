@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Settings,
-  RefreshCw,
-  CheckCircle,
-  XCircle,
-  X,
-  Save,
-} from "lucide-react";
+import { Settings, RefreshCw, CheckCircle, XCircle, X, Save } from "lucide-react";
 import { useOllama } from "../contexts/OllamaContext";
 import useTranslate from "../utils/useTranslate";
 
@@ -37,10 +30,7 @@ export function OllamaSettings({ onClose }) {
     e.preventDefault();
     let formattedUrl = urlInput.trim();
 
-    if (
-      !formattedUrl.startsWith("http://") &&
-      !formattedUrl.startsWith("https://")
-    ) {
+    if (!formattedUrl.startsWith("http://") && !formattedUrl.startsWith("https://")) {
       formattedUrl = `http://${formattedUrl}`;
     }
 
@@ -70,13 +60,9 @@ export function OllamaSettings({ onClose }) {
         <div className="card-icon">
           <Settings size={24} />
         </div>
-        <h3 className="card-title">{t('ollamaSettings.title')}</h3>
+        <h3 className="card-title">{t("ollamaSettings.title")}</h3>
         {onClose && (
-          <button
-            type="button"
-            onClick={onClose}
-            className="modal-close-button"
-          >
+          <button type="button" onClick={onClose} className="modal-close-button">
             <X size={18} />
           </button>
         )}
@@ -85,16 +71,9 @@ export function OllamaSettings({ onClose }) {
       <div className="card-content modal-content">
         <div className="content-layout">
           {/* Status połączenia */}
-          <div
-            className={`connection-status ${
-              isConnected ? "connected" : "disconnected"
-            }`}
-          >
+          <div className={`connection-status ${isConnected ? "connected" : "disconnected"}`}>
             {isConnected ? (
-              <CheckCircle
-                size={20}
-                style={{ color: "var(--success-color)" }}
-              />
+              <CheckCircle size={20} style={{ color: "var(--success-color)" }} />
             ) : (
               <XCircle size={20} style={{ color: "var(--error-color)" }} />
             )}
@@ -102,26 +81,26 @@ export function OllamaSettings({ onClose }) {
               <div
                 className="connection-status-title"
                 style={{
-                  color: isConnected
-                    ? "var(--success-color)"
-                    : "var(--error-color)",
+                  color: isConnected ? "var(--success-color)" : "var(--error-color)",
                 }}
               >
                 {isConnected
-                  ? t('ollamaSettings.connectionStatus.connected')
-                  : t('ollamaSettings.connectionStatus.disconnected')}
+                  ? t("ollamaSettings.connectionStatus.connected")
+                  : t("ollamaSettings.connectionStatus.disconnected")}
               </div>
               <div className="connection-status-subtitle">
                 {isConnected
-                  ? t('ollamaSettings.connectionStatus.modelsFound', { count: availableModels.length })
-                  : t('ollamaSettings.connectionStatus.checkConnection')}
+                  ? t("ollamaSettings.connectionStatus.modelsFound", {
+                      count: availableModels.length,
+                    })
+                  : t("ollamaSettings.connectionStatus.checkConnection")}
               </div>
             </div>
           </div>
 
           {/* Konfiguracja URL */}
           <div className="form-section">
-            <label className="form-label-enhanced">{t('ollamaSettings.urlLabel')}</label>
+            <label className="form-label-enhanced">{t("ollamaSettings.urlLabel")}</label>
             <form onSubmit={handleUrlSubmit} className="form-row">
               <input
                 type="text"
@@ -136,12 +115,10 @@ export function OllamaSettings({ onClose }) {
                 disabled={isChecking}
               >
                 <Save size={20} />
-                {isChecking ? t('ollamaSettings.checking') : t('ollamaSettings.save')}
+                {isChecking ? t("ollamaSettings.checking") : t("ollamaSettings.save")}
               </button>
             </form>
-            <div className="form-hint">
-              {t('ollamaSettings.urlHint')}
-            </div>
+            <div className="form-hint">{t("ollamaSettings.urlHint")}</div>
           </div>
 
           {/* Test połączenia */}
@@ -151,17 +128,14 @@ export function OllamaSettings({ onClose }) {
             disabled={isChecking}
             className="button-secondary button-enhanced button-secondary-enhanced"
           >
-            <RefreshCw
-              size={16}
-              className={isChecking ? "spinning-icon" : ""}
-            />
-            {isChecking ? t('ollamaSettings.checking') : t('ollamaSettings.testConnection')}
+            <RefreshCw size={16} className={isChecking ? "spinning-icon" : ""} />
+            {isChecking ? t("ollamaSettings.checking") : t("ollamaSettings.testConnection")}
           </button>
 
           {/* Wybór modelu */}
           {availableModels.length > 0 && (
             <div className="form-section">
-              <label className="form-label-enhanced">{t('ollamaSettings.modelLabel')}</label>
+              <label className="form-label-enhanced">{t("ollamaSettings.modelLabel")}</label>
               <select
                 value={selectedModel}
                 onChange={handleModelChange}
@@ -169,12 +143,13 @@ export function OllamaSettings({ onClose }) {
               >
                 {availableModels.map((model) => (
                   <option key={model.name} value={model.name}>
-                    {model.name} ({(model.size / 1024 / 1024 / 1024).toFixed(1)}{" "}
-                    GB)
+                    {model.name} ({(model.size / 1024 / 1024 / 1024).toFixed(1)} GB)
                   </option>
                 ))}
               </select>
-              <div className="form-hint">{t('ollamaSettings.selectedModel', { model: selectedModel })}</div>
+              <div className="form-hint">
+                {t("ollamaSettings.selectedModel", { model: selectedModel })}
+              </div>
             </div>
           )}
         </div>

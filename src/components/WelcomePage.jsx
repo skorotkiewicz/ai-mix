@@ -39,18 +39,14 @@ export function WelcomePage() {
             <div key={index} className="welcome-feature-card">
               <div className="welcome-feature-icon">{feature.icon}</div>
               <h3 className="welcome-feature-title">{t(feature.titleKey)}</h3>
-              <p className="welcome-feature-description">
-                {t(feature.descriptionKey)}
-              </p>
+              <p className="welcome-feature-description">{t(feature.descriptionKey)}</p>
             </div>
           ))}
         </div>
       </div>
 
       <div className="welcome-getting-started">
-        <h2 className="welcome-section-title">
-          {t("welcome.gettingStarted.title")}
-        </h2>
+        <h2 className="welcome-section-title">{t("welcome.gettingStarted.title")}</h2>
         <div className="welcome-steps">
           <div className="welcome-step">
             <div className="welcome-step-number">1</div>

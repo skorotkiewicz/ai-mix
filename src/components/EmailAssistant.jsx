@@ -18,18 +18,18 @@ export function EmailAssistant() {
   const templates = [
     {
       id: "meeting",
-      label: t('emailAssistant.templates.meeting'),
+      label: t("emailAssistant.templates.meeting"),
       icon: <User size={16} />,
     },
     {
       id: "follow-up",
-      label: t('emailAssistant.templates.follow-up'),
+      label: t("emailAssistant.templates.follow-up"),
       icon: <Briefcase size={16} />,
     },
-    { id: "apology", label: t('emailAssistant.templates.apology'), icon: <Mail size={16} /> },
+    { id: "apology", label: t("emailAssistant.templates.apology"), icon: <Mail size={16} /> },
     {
       id: "introduction",
-      label: t('emailAssistant.templates.introduction'),
+      label: t("emailAssistant.templates.introduction"),
       icon: <User size={16} />,
     },
   ];
@@ -41,14 +41,14 @@ export function EmailAssistant() {
     setError("");
 
     const toneInstruction = t(`emailAssistant.toneInstructions.${tone}`);
-    const recipientText = recipient ? t('emailAssistant.recipientPrompt', { recipient }) : '';
-    const contextText = context ? t('emailAssistant.contextPrompt', { context }) : '';
-    
-    const prompt = t('emailAssistant.prompt', {
+    const recipientText = recipient ? t("emailAssistant.recipientPrompt", { recipient }) : "";
+    const contextText = context ? t("emailAssistant.contextPrompt", { context }) : "";
+
+    const prompt = t("emailAssistant.prompt", {
       tone: toneInstruction,
       purpose,
       recipientText,
-      contextText
+      contextText,
     });
 
     try {
@@ -73,13 +73,13 @@ export function EmailAssistant() {
         <div className="card-icon">
           <Mail size={20} />
         </div>
-        <h3 className="card-title">{t('emailAssistant.title')}</h3>
+        <h3 className="card-title">{t("emailAssistant.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div style={{ marginBottom: "calc(var(--spacing-unit) * 3)" }}>
-        <div className="form-label">{t('emailAssistant.templatesLabel')}</div>
+        <div className="form-label">{t("emailAssistant.templatesLabel")}</div>
         <div
           style={{
             display: "flex",
@@ -95,8 +95,7 @@ export function EmailAssistant() {
               className="btn btn-secondary"
               style={{
                 fontSize: "0.8rem",
-                padding:
-                  "calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2)",
+                padding: "calc(var(--spacing-unit) * 1) calc(var(--spacing-unit) * 2)",
               }}
             >
               {template.icon}
@@ -107,11 +106,11 @@ export function EmailAssistant() {
       </div>
 
       <div className="form-group">
-        <label className="form-label">{t('emailAssistant.purposeLabel')}</label>
+        <label className="form-label">{t("emailAssistant.purposeLabel")}</label>
         <textarea
           value={purpose}
           onChange={(e) => setPurpose(e.target.value)}
-          placeholder={t('emailAssistant.purposePlaceholder')}
+          placeholder={t("emailAssistant.purposePlaceholder")}
           className="form-textarea"
         />
       </div>
@@ -124,24 +123,26 @@ export function EmailAssistant() {
         }}
       >
         <div className="form-group">
-          <label className="form-label">{t('emailAssistant.recipientLabel')}</label>
+          <label className="form-label">{t("emailAssistant.recipientLabel")}</label>
           <input
             type="text"
             value={recipient}
             onChange={(e) => setRecipient(e.target.value)}
-            placeholder={t('emailAssistant.recipientPlaceholder')}
+            placeholder={t("emailAssistant.recipientPlaceholder")}
             className="form-input"
           />
         </div>
 
         <div className="form-group">
-          <label className="form-label">{t('emailAssistant.toneLabel')}</label>
-          <select
-            value={tone}
-            onChange={(e) => setTone(e.target.value)}
-            className="form-select"
-          >
-            {Object.keys({professional: '', friendly: '', formal: '', casual: '', persuasive: ''}).map((key) => (
+          <label className="form-label">{t("emailAssistant.toneLabel")}</label>
+          <select value={tone} onChange={(e) => setTone(e.target.value)} className="form-select">
+            {Object.keys({
+              professional: "",
+              friendly: "",
+              formal: "",
+              casual: "",
+              persuasive: "",
+            }).map((key) => (
               <option key={key} value={key}>
                 {getToneLabel(key)}
               </option>
@@ -151,11 +152,11 @@ export function EmailAssistant() {
       </div>
 
       <div className="form-group">
-        <label className="form-label">{t('emailAssistant.contextLabel')}</label>
+        <label className="form-label">{t("emailAssistant.contextLabel")}</label>
         <textarea
           value={context}
           onChange={(e) => setContext(e.target.value)}
-          placeholder={t('emailAssistant.contextPlaceholder')}
+          placeholder={t("emailAssistant.contextPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "80px" }}
         />
@@ -168,12 +169,12 @@ export function EmailAssistant() {
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Send size={16} />}
-        {t('emailAssistant.generate')}
+        {t("emailAssistant.generate")}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">{t('emailAssistant.resultTitle')}</div>
+          <div className="result-title">{t("emailAssistant.resultTitle")}</div>
           <div className="result-text">{result}</div>
         </div>
       )}

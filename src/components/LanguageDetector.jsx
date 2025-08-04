@@ -12,19 +12,19 @@ export function LanguageDetector() {
 
   const sampleTexts = [
     {
-      lang: t('languageDetector.sampleTexts.french'),
+      lang: t("languageDetector.sampleTexts.french"),
       text: "Bonjour, comment allez-vous? J'espère que vous passez une excellente journée.",
     },
     {
-      lang: t('languageDetector.sampleTexts.spanish'),
+      lang: t("languageDetector.sampleTexts.spanish"),
       text: "Hola, ¿cómo estás? Me gusta mucho la comida española y la cultura.",
     },
     {
-      lang: t('languageDetector.sampleTexts.german'),
+      lang: t("languageDetector.sampleTexts.german"),
       text: "Guten Tag! Wie geht es Ihnen? Deutschland ist ein wunderschönes Land.",
     },
     {
-      lang: t('languageDetector.sampleTexts.italian'),
+      lang: t("languageDetector.sampleTexts.italian"),
       text: "Ciao! Come stai? L'Italia ha una cucina fantastica e una storia ricca.",
     },
   ];
@@ -35,7 +35,7 @@ export function LanguageDetector() {
     setIsLoading(true);
     setError("");
 
-    const prompt = t('languageDetector.prompt', { text });
+    const prompt = t("languageDetector.prompt", { text });
 
     try {
       const response = await OllamaAPI.generateText(prompt, null, {
@@ -47,10 +47,10 @@ export function LanguageDetector() {
         const analysis = JSON.parse(jsonMatch[0]);
         setResult(analysis);
       } else {
-        throw new Error(t('languageDetector.errors.parsing'));
+        throw new Error(t("languageDetector.errors.parsing"));
       }
     } catch (_err) {
-      setError(t('languageDetector.errors.detection'));
+      setError(t("languageDetector.errors.detection"));
     } finally {
       setIsLoading(false);
     }
@@ -62,13 +62,13 @@ export function LanguageDetector() {
         <div className="card-icon">
           <Globe size={20} />
         </div>
-        <h3 className="card-title">{t('languageDetector.title')}</h3>
+        <h3 className="card-title">{t("languageDetector.title")}</h3>
       </div>
 
       {error && <div className="error-message">{error}</div>}
 
       <div style={{ marginBottom: "calc(var(--spacing-unit) * 3)" }}>
-        <div className="form-label">{t('languageDetector.samplesLabel')}</div>
+        <div className="form-label">{t("languageDetector.samplesLabel")}</div>
         <div
           style={{
             display: "flex",
@@ -96,11 +96,11 @@ export function LanguageDetector() {
       </div>
 
       <div className="form-group">
-        <label className="form-label">{t('languageDetector.textLabel')}</label>
+        <label className="form-label">{t("languageDetector.textLabel")}</label>
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder={t('languageDetector.textPlaceholder')}
+          placeholder={t("languageDetector.textPlaceholder")}
           className="form-textarea"
           style={{ minHeight: "120px" }}
         />
@@ -113,12 +113,12 @@ export function LanguageDetector() {
         className="btn"
       >
         {isLoading ? <div className="loading-spinner" /> : <Search size={16} />}
-        {t('languageDetector.detect')}
+        {t("languageDetector.detect")}
       </button>
 
       {result && (
         <div className="result-container">
-          <div className="result-title">{t('languageDetector.resultTitle')}</div>
+          <div className="result-title">{t("languageDetector.resultTitle")}</div>
 
           <div
             style={{
@@ -139,7 +139,7 @@ export function LanguageDetector() {
                 {result.language}
               </div>
               <div style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
-                {t('languageDetector.codeLabel')} {result.code}
+                {t("languageDetector.codeLabel")} {result.code}
               </div>
             </div>
 
@@ -154,7 +154,7 @@ export function LanguageDetector() {
                 {Math.round((result.confidence || 0) * 100)}%
               </div>
               <div style={{ fontSize: "0.875rem", color: "var(--text-muted)" }}>
-                {t('languageDetector.confidenceLabel')}
+                {t("languageDetector.confidenceLabel")}
               </div>
             </div>
           </div>
@@ -174,11 +174,9 @@ export function LanguageDetector() {
                   marginBottom: "calc(var(--spacing-unit) * 1)",
                 }}
               >
-                {t('languageDetector.characteristicsLabel')}
+                {t("languageDetector.characteristicsLabel")}
               </div>
-              <div style={{ color: "var(--text-secondary)" }}>
-                {result.characteristics}
-              </div>
+              <div style={{ color: "var(--text-secondary)" }}>{result.characteristics}</div>
             </div>
           )}
         </div>

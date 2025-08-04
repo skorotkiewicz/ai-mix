@@ -49,7 +49,7 @@ export function TextGenerator() {
     const fullPrompt = t("textGenerator.prompt", {
       lengthInstruction: lengthInstructions[length],
       styleInstruction: styleInstructions[style],
-      topic: prompt
+      topic: prompt,
     });
 
     try {
@@ -94,11 +94,7 @@ export function TextGenerator() {
       >
         <div className="form-group">
           <label className="form-label">{t("textGenerator.styleLabel")}</label>
-          <select
-            value={style}
-            onChange={(e) => setStyle(e.target.value)}
-            className="form-select"
-          >
+          <select value={style} onChange={(e) => setStyle(e.target.value)} className="form-select">
             {Object.entries(styles).map(([key, label]) => (
               <option key={key} value={key}>
                 {label}
